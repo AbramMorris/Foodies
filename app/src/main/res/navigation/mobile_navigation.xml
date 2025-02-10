@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/splash">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.foodrecpie.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.foodrecpie.ui.sign_in.Sign_inFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_navigation_notifications_to_signUp"
+            app:destination="@id/signUp" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_navigation_home2"
+            app:destination="@id/navigation_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/splash"
+        android:name="com.example.foodrecpie.ui.Splach.splash"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splash_to_navigation_notifications"
+            app:destination="@id/navigation_notifications" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUp"
+        android:name="com.example.foodrecpie.ui.Sign_UP.SignUp"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUp_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+</navigation>
