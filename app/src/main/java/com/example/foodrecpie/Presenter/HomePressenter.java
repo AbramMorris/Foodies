@@ -3,50 +3,39 @@ package com.example.foodrecpie.Presenter;
 
 import android.content.Intent;
 
+import com.example.foodrecpie.HomeViewInterface;
 import com.example.foodrecpie.Model.MealsPOJO;
-import com.example.foodrecpie.GeneralRepositoryModel.GeneralRepositoryInterface;
-import com.example.foodrecpie.Network.AreaNetworkDelegate;
-import com.example.foodrecpie.area.selectedArea.model.Meal;
-
-import com.example.foodrecpie.area.selectedArea.model.SelectedResponse;
-import com.example.foodrecpie.home.view.HomeViewInterface;
+import com.example.foodrecpie.Network.NetworkCallBack;
+import com.example.foodrecpie.Repo;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class HomePressenter implements HomePressenterInterface , AreaNetworkDelegate {
+public class HomePressenter implements HomePressenterInterface , NetworkCallBack  {
 
-    GeneralRepositoryInterface genral ;
+
     HomeViewInterface view ;
+    Repo repo;
 
-    public HomePressenter(GeneralRepositoryInterface genral, HomeViewInterface view) {
-        this.genral = genral;
+    public HomePressenter(  HomeViewInterface view) {
         this.view = view;
+        this.repo = Repo.getInstance();
     }
 
 
 
     @Override
     public void getDailyRandomMeals() {
-        genral.resultAllMeals(this);
+       repo.getAllProducts(this);
     }
 
     @Override
-    public void addToFavorite(Meal meal) {
-        genral.insert(meal);
+    public void onSuccess(MealsPOJO mealList) {
+        view.showRandomMeals(mealList);
     }
 
     @Override
-    public void deleteAllMeals() {
-        genral.deleteAllMeals();
-    }
-
-    @Override
-    public void onSuccessResponse(ArrayList<MealsPOJO> response) {
-        view.showRandomMeals(response);
-    }
-
-    @Override
-    public void onFailureResponse(String response) {
+    public void onFailure(String errorMessage) {
 
     }
 }
