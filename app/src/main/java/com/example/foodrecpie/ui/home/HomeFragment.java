@@ -13,18 +13,26 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodrecpie.Adapters.DailyAdapter;
+import com.example.foodrecpie.HomeViewInterface;
+import com.example.foodrecpie.Model.MealsPOJO;
+import com.example.foodrecpie.Presenter.HomePressenter;
 import com.example.foodrecpie.R;
 import com.example.foodrecpie.databinding.FragmentHomeBinding;
 
-public class HomeFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnClickListner {
 
     private FragmentHomeBinding binding;
     private DailyAdapter dailyAdapter;
     RecyclerView recyclerView;
+    HomePressenter homePressenter;
 
     public HomeFragment() {
         // Required empty public constructor
     }
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,7 +48,9 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView=view.findViewById(R.id.recyclerDailyInspiration);
-        dailyAdapter = new DailyAdapter();
+        dailyAdapter = new DailyAdapter(getContext(), new ArrayList<>());
+        homePressenter = new HomePressenter(this);
+        homePressenter.getDailyRandomMeals();
         recyclerView.setAdapter(dailyAdapter);
 //        recyclerView.setHasFixedSize(true);
     }
@@ -48,5 +58,25 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public void showRandomMeals(MealsPOJO Meals) {
+
+        List<MealsPOJO> MealsList = new ArrayList<>();
+        MealsList.add(Meals);
+        dailyAdapter.setDailyMealList(MealsList);
+        dailyAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(dailyAdapter);
+    }
+
+    @Override
+    public void onAddToFavorite(MealsPOJO meal) {
+
+    }
+
+    @Override
+    public void showMealDetails(MealsPOJO meal) {
+
     }
 }
