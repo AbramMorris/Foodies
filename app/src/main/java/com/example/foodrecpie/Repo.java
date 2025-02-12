@@ -15,15 +15,16 @@ public class Repo {
     private static Repo repo=null;
 
 
-    public static Repo getInstance( RandemMealsPojo randemMealsPojo){
+    public static Repo getInstance(){
         if(repo==null){
-            repo=new Repo(randemMealsPojo);
+            repo=new Repo();
         }
         return repo;
     }
-    private Repo( RandemMealsPojo randemMealsPojo){
-        this.randemMealsPojo=randemMealsPojo;
+    private Repo(){
+        dailyInspireRemoteDataSorce= DailyInspireRemoteDataSorce.getInstance();
 
+//        this.randemMealsPojo=randemMealsPojo;
     }
 //    public LiveData<List<MealsPOJO>> getStoredData(){
 //        return productLocalDataSource.getStoredData();
