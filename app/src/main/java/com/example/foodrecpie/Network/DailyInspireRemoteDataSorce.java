@@ -10,7 +10,7 @@ import retrofit2.Response;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DailyInspireRemoteDataSorce {
-    private static final String URL = "www.themealdb.com/api/json/v1/1/random.php";
+    private static final String URL = "https://www.themealdb.com/api/json/v1/1/";
     public static final String TAG = "Retrofit";
     private ApiService apiService;
     private static DailyInspireRemoteDataSorce Instance;
@@ -41,8 +41,8 @@ public class DailyInspireRemoteDataSorce {
             @Override
             public void onResponse(Call<RandemMealsPojo> call, Response<RandemMealsPojo> response) {
                 if(response.isSuccessful()){
-                    Log.d(TAG, "onResponse: "+response.raw()+response.body());
-                    networkCallBack.onSuccess(response.body().getMeals());
+                    Log.d(TAG, "onResponse: "+response.raw()+response.body().getMeals().get(0).getStrMeal());
+                    networkCallBack.onSuccess(response.body().getMeals().get(0));
                 }
             }
 
