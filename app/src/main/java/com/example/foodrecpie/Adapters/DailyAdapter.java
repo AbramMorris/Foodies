@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.foodrecpie.Home.HomeClickLisener;
 import com.example.foodrecpie.Model.MealsPOJO;
 import com.example.foodrecpie.R;
 
@@ -22,23 +23,18 @@ import java.util.List;
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHolder> {
     private Context context;
     private List<MealsPOJO> dailyMealList;
+    private HomeClickLisener homeClickLisener;
     private MealsPOJO DailyMeal;
     private ImageView DailyMealImageView;
     private TextView titleTextView;
     private TextView descriptionTextView;
 
-    public DailyAdapter( ) {
 
+    public DailyAdapter(Context context, List<MealsPOJO> dailyMealList) {
+        this.context = context;
+        this.dailyMealList = dailyMealList;
+        DailyMeal = new MealsPOJO();
     }
-
-//    public DailyAdapter(Context context, List<MealsPOJO> dailyMealList, MealsPOJO dailyMeal, ImageView dailyMealImageView, TextView titleTextView, TextView descriptionTextView) {
-//        this.context = context;
-//        DailyMealList = dailyMealList;
-//        DailyMeal = dailyMeal;
-//        DailyMealImageView = dailyMealImageView;
-//        this.titleTextView = titleTextView;
-//        this.descriptionTextView = descriptionTextView;
-//    }
 
     @NonNull
     @Override
@@ -50,11 +46,6 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
     @Override
     public void onBindViewHolder(@NonNull DailyViewHolder holder, int position) {
         MealsPOJO DailyMeal = dailyMealList.get(position);
-
-        holder.DailyMealImageView.setImageResource(Integer.parseInt(DailyMeal.getStrMealThumb()));
-        holder.titleTextView.setText(DailyMeal.getStrMeal());
-        holder.descriptionTextView.setText(DailyMeal.getStrInstructions());
-        dailyMealList= new ArrayList<>();
         holder.titleTextView.setText(DailyMeal.getStrMeal());
         holder.descriptionTextView.setText(DailyMeal.getStrInstructions());
         Glide.with(context)
