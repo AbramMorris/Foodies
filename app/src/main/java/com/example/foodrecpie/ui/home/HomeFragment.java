@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodrecpie.Adapters.DailyAdapter;
-import com.example.foodrecpie.HomeViewInterface;
 import com.example.foodrecpie.Model.MealsPOJO;
 import com.example.foodrecpie.Presenter.HomePressenter;
 import com.example.foodrecpie.R;
@@ -26,7 +24,7 @@ public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnC
 
     private FragmentHomeBinding binding;
     private DailyAdapter dailyAdapter;
-    RecyclerView recyclerView;
+//    RecyclerView recyclerView;
     HomePressenter homePressenter;
 
     public HomeFragment() {
@@ -47,11 +45,12 @@ public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnC
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView=view.findViewById(R.id.recyclerDailyInspiration);
+//        recyclerView=view.findViewById(R.id.recyclerDailyInspiration);
+
         dailyAdapter = new DailyAdapter(getContext(), new ArrayList<>());
         homePressenter = new HomePressenter(this);
         homePressenter.getDailyRandomMeals();
-        recyclerView.setAdapter(dailyAdapter);
+        binding.recyclerDailyInspiration.setAdapter(dailyAdapter);
 //        recyclerView.setHasFixedSize(true);
     }
 
@@ -67,7 +66,7 @@ public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnC
         MealsList.add(Meals);
         dailyAdapter.setDailyMealList(MealsList);
         dailyAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(dailyAdapter);
+        binding.recyclerDailyInspiration.setAdapter(dailyAdapter);
     }
 
     @Override

@@ -1,15 +1,10 @@
 package com.example.foodrecpie.Presenter;
 
 
-import android.content.Intent;
-
-import com.example.foodrecpie.HomeViewInterface;
+import com.example.foodrecpie.ui.home.HomeViewInterface;
 import com.example.foodrecpie.Model.MealsPOJO;
 import com.example.foodrecpie.Network.NetworkCallBack;
 import com.example.foodrecpie.Repo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomePressenter implements HomePressenterInterface , NetworkCallBack  {
 

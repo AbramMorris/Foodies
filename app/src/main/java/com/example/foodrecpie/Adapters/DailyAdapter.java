@@ -25,9 +25,6 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
     private List<MealsPOJO> dailyMealList;
     private HomeClickLisener homeClickLisener;
     private MealsPOJO DailyMeal;
-    private ImageView DailyMealImageView;
-    private TextView titleTextView;
-    private TextView descriptionTextView;
 
 
     public DailyAdapter(Context context, List<MealsPOJO> dailyMealList) {
@@ -39,7 +36,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
     @NonNull
     @Override
     public DailyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_card, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.random_meals, parent, false);
         return new DailyViewHolder(view);
     }
 
@@ -47,7 +44,6 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
     public void onBindViewHolder(@NonNull DailyViewHolder holder, int position) {
         MealsPOJO DailyMeal = dailyMealList.get(position);
         holder.titleTextView.setText(DailyMeal.getStrMeal());
-        holder.descriptionTextView.setText(DailyMeal.getStrInstructions());
         Glide.with(context)
                 .load(DailyMeal.getStrMealThumb())
                 .placeholder(R.drawable.ic_launcher_foreground)
@@ -69,13 +65,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
     public static class DailyViewHolder extends RecyclerView.ViewHolder {
         private ImageView DailyMealImageView;
         private TextView titleTextView;
-        private TextView descriptionTextView;
+
 
         public DailyViewHolder(@NonNull View itemView) {
             super(itemView);
-            DailyMealImageView = itemView.findViewById(R.id.imageView5);
-            titleTextView = itemView.findViewById(R.id.item_name);
-            descriptionTextView = itemView.findViewById(R.id.item_description);
+            DailyMealImageView = itemView.findViewById(R.id.img_random_meal);
+            titleTextView = itemView.findViewById(R.id.item_Random_name);
         }
     }
 }
