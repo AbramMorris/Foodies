@@ -4,9 +4,11 @@ import android.util.Log;
 
 import com.example.foodrecpie.Model.RandemMealsPojo;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io. reactivex. rxjava3.core. Scheduler;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DailyInspireRemoteDataSorce {
@@ -20,38 +22,60 @@ public class DailyInspireRemoteDataSorce {
         }
         return Instance;
     }
-    private static retrofit2.Retrofit retrofit;
+    private static Retrofit retrofit;
 
     private DailyInspireRemoteDataSorce(){}
-    public static retrofit2.Retrofit getData() {
+    public static Retrofit getData() {
         if (retrofit == null) {
 
-            retrofit = new retrofit2.Retrofit.Builder()
+            retrofit = new Retrofit.Builder()
                     .baseUrl(URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                     .build();
         }
         return retrofit;
     }
 
-    public void makeNetworkCall(NetworkCallBack networkCallBack ){
-        apiService=getData().create(ApiService.class);
-        Call<RandemMealsPojo> call =apiService.getRandemMeal();
-        call.enqueue(new Callback<RandemMealsPojo>() {
-            @Override
-            public void onResponse(Call<RandemMealsPojo> call, Response<RandemMealsPojo> response) {
-                if(response.isSuccessful()){
-                    Log.d(TAG, "onResponse: "+response.raw()+response.body().getMeals().get(0).getStrMeal());
-                    networkCallBack.onSuccess(response.body().getMeals().get(0));
-                }
-            }
+    public void makeNetworkCall(NetworkCallBack networkCallBack ) {
+        apiService = getData().create(ApiService.class);
+        apiService.getRandemMeal().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        response -> {
+                            if (response != null && response.getMeals() != null && !response.getMeals().isEmpty()) {
+                                Log.d(TAG, "onSuccess: " + response.getMeals().get(0).getStrMeal());
+                                networkCallBack.onSuccess(response.getMeals().get(0));
+                            }
+                        },
+                        error -> {
+                            Log.e("Error", "Error fetching data", error);
+                            networkCallBack.onFailure(error.getMessage());
+                        }
+                );
 
-            @Override
-            public void onFailure(Call<RandemMealsPojo> call, Throwable t) {
-                Log.e("Error", "Error fetching data");
-                networkCallBack.onFailure(t.getMessage());
-                t.printStackTrace();
-            }
-        });
     }
-}
+
+
+
+
+
+
+//        call.enqueue(new Callback<RandemMealsPojo>() {
+//            @Override
+//            public void onResponse(Call<RandemMealsPojo> call, Response<RandemMealsPojo> response) {
+//                if(response.isSuccessful()){
+//                    Log.d(TAG, "onResponse: "+response.raw()+response.body().getMeals().get(0).getStrMeal());
+//                    networkCallBack.onSuccess(response.body().getMeals().get(0));
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<RandemMealsPojo> call, Throwable t) {
+//                Log.e("Error", "Error fetching data");
+//                networkCallBack.onFailure(t.getMessage());
+//                t.printStackTrace();
+//            }
+//        });
+    }
+
