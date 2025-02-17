@@ -5,7 +5,7 @@ import com.example.foodrecpie.Model.MealsPOJO;
 import java.util.List;
 
 public interface NetworkCallBack {
-    void onSuccess(MealsPOJO mealList);
+    void onSuccess(List<MealsPOJO> mealList);
     void onFailure(String errorMessage);
 
 }

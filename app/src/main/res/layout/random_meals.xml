@@ -42,7 +42,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@drawable/ic_launcher_foreground" />
 
 
         </androidx.cardview.widget.CardView>
@@ -57,7 +57,7 @@
             android:contentDescription="dropdawn List for days "
             android:drawableStart="@drawable/baseline_fastfood_24"
             android:drawablePadding="12dp"
-            android:fontFamily="casual"
+
             android:paddingStart="12dp"
             android:paddingTop="5dp"
             android:text="TextView"
@@ -94,7 +94,6 @@
             android:completionThreshold="0"
             android:drawableStart="@drawable/baseline_edit_calendar_24"
             android:editable="false"
-            android:fontFamily="casual"
             android:hint="@string/add_to_plan"
             android:paddingStart="12dp"
             android:paddingTop="3dp"

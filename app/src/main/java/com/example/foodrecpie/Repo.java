@@ -1,13 +1,9 @@
 package com.example.foodrecpie;
 
-import androidx.lifecycle.LiveData;
-
-import com.example.foodrecpie.Model.MealsPOJO;
+import com.example.foodrecpie.CountryArea.NetworkCallBackCountry;
 import com.example.foodrecpie.Model.RandemMealsPojo;
 import com.example.foodrecpie.Network.DailyInspireRemoteDataSorce;
 import com.example.foodrecpie.Network.NetworkCallBack;
-
-import java.util.List;
 
 public class Repo {
     DailyInspireRemoteDataSorce dailyInspireRemoteDataSorce;
@@ -23,7 +19,6 @@ public class Repo {
     }
     private Repo(){
         dailyInspireRemoteDataSorce= DailyInspireRemoteDataSorce.getInstance();
-
 //        this.randemMealsPojo=randemMealsPojo;
     }
 //    public LiveData<List<MealsPOJO>> getStoredData(){
@@ -37,5 +32,8 @@ public class Repo {
 //    }
     public void getAllProducts(NetworkCallBack networkCallBack){
         dailyInspireRemoteDataSorce.makeNetworkCall(networkCallBack);
+    }
+    public void getListAreaCountry(NetworkCallBackCountry networkCallBack){
+        dailyInspireRemoteDataSorce.getListCountry(networkCallBack);
     }
 }

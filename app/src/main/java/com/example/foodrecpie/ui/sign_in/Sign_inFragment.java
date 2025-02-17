@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +16,17 @@ import androidx.navigation.Navigation;
 
 import com.example.foodrecpie.R;
 import com.example.foodrecpie.databinding.FragmentSignInBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Sign_inFragment extends Fragment {
     TextView signup;
     Button btn_signin ;
     Button btn_google;
+    FirebaseAuth mAuth;
 
     private FragmentSignInBinding binding;
 
@@ -32,6 +39,7 @@ public class Sign_inFragment extends Fragment {
         View root = binding.getRoot();
 
         return root;
+
     }
 
     @Override
@@ -40,17 +48,18 @@ public class Sign_inFragment extends Fragment {
         signup = view.findViewById(R.id.textView);
         btn_signin = view.findViewById(R.id.button);
         btn_google = view.findViewById(R.id.button2);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.action_navigation_notifications_to_signUp);
             }
-        });
-    }
+            });
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
+public void signIn(){
+}
+
+
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "205726963521",
+    "project_id": "foodrecpie-3cd03",
+    "storage_bucket": "foodrecpie-3cd03.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205726963521:android:414667ccf6524b108bf3c0",
+        "android_client_info": {
+          "package_name": "com.example.foodrecpie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcapbuWDo4BP7rT_Iar5DdCUAe5HEUGvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
