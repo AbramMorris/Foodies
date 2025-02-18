@@ -110,4 +110,6 @@
     <string name="dropdawn_hint">DropDawn_hint</string>
     <string name="add_to_plan">Add To Plan</string>
     <string name="countries">Countries</string>
+    <string name="search">Search</string>
+    <string name="hint_search">hint_search</string>
 </resources>

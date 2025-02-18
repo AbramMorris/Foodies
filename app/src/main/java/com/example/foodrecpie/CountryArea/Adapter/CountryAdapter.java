@@ -72,7 +72,11 @@ public class CountryAdapter extends RecyclerView.Adapter <CountryAdapter.MyViewH
     public int getItemCount() {
         return country.size();
     }
-
+    public void updateData(List<Meal> newCountry) {
+        country.clear();
+        country.addAll(newCountry);
+        notifyDataSetChanged();
+    }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout layout;
         TextView nationality ;

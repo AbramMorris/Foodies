@@ -3,7 +3,11 @@ package com.example.foodrecpie.Network;
 import com.example.foodrecpie.CountryArea.Model.SelectedResponse;
 import com.example.foodrecpie.Model.MealDetailResponse;
 import com.example.foodrecpie.Model.RandemMealsPojo;
+import com.example.foodrecpie.ui.Search.Data.AreaResponse;
+import com.example.foodrecpie.ui.Search.Data.CategoryResponse;
+import com.example.foodrecpie.ui.Search.Data.IngredientResponse;
 
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -13,13 +17,13 @@ public interface ApiService {
     Single<RandemMealsPojo> getRandemMeal();
 
     @GET("filter.php")
-    Single<SelectedResponse> getMealsOfSelectedArea(@Query("a") String areaSelected);
+    Observable<AreaResponse> getAreas(@Query("a") String areaName);
 
     @GET("filter.php")
-    Single<RandemMealsPojo> getMealsOfSelectedCategory(@Query("c") String categorySelected);
+    Single<CategoryResponse> getCategories(@Query("c") String categoryName);
 
     @GET("filter.php")
-    Single<RandemMealsPojo> getMealsOfSelectedIngredient(@Query("i") String ingredientSelected);
+    Single<IngredientResponse> getIngredients(@Query("i") String ingredientName);
 
     @GET("search.php")
     Single<RandemMealsPojo> getMealsBySearch(@Query("s") String searchLitter);
@@ -28,10 +32,10 @@ public interface ApiService {
     @GET("list.php?i=list")
     Single<RandemMealsPojo> getIngredientsList();
     @GET("list.php?a=list")
-    Single<SelectedResponse> getAreasList();
+    Observable<SelectedResponse> getAreasList();
 
     @GET("list.php?c=list")
-    Single<RandemMealsPojo> getCategoriesList();
+    Observable<CategoryResponse> getCategoriesList();
 
     @GET("search.php?f=a")
     Single<RandemMealsPojo> getRandomMeals();

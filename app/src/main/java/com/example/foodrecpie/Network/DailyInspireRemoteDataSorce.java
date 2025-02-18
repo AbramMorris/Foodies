@@ -5,9 +5,13 @@ import android.util.Log;
 
 import com.example.foodrecpie.CountryArea.Model.SelectedResponse;
 import com.example.foodrecpie.CountryArea.NetworkCallBackCountry;
+import com.example.foodrecpie.Model.RandemMealsPojo;
+import com.example.foodrecpie.ui.Search.Data.CategoryResponse;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -60,18 +64,19 @@ public class DailyInspireRemoteDataSorce implements RemoteSource {
 
     }
     @SuppressLint("CheckResult")
-    public void getListCountry(NetworkCallBackCountry networkCalBack) {
+    public Observable<SelectedResponse> getListCountry(NetworkCallBackCountry networkCalBack) {
         apiService = getData().create(ApiService.class);
         apiService.getAreasList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<SelectedResponse>() {
+                .subscribe(new Observer<SelectedResponse>() {
                                @Override
                                public void onSubscribe(@NonNull Disposable d) {
+
                                }
 
                                @Override
-                               public void onSuccess(@NonNull SelectedResponse selectedResponse) {
+                               public void onNext(@NonNull SelectedResponse selectedResponse) {
                                    networkCalBack.onSuccessCountry(selectedResponse.getAreaMeals());
                                    for (int i = 0; i < selectedResponse.getAreaMeals().size(); i++) {
                                        Log.d("Countryyyyyyy", "onSuccess: " + selectedResponse.getAreaMeals().get(i).getStrArea());
@@ -82,11 +87,48 @@ public class DailyInspireRemoteDataSorce implements RemoteSource {
                                public void onError(@NonNull Throwable e) {
                                    Log.e("Error", "Error fetching data");
                                }
+
+                               @Override
+                               public void onComplete() {
+
+                               }
                            }
                 );
 
+        return apiService.getAreasList();
     }
+    public Observable<CategoryResponse> getCategoriesList(NetworkCallCategories networkCallCategories) {
+        apiService = getData().create(ApiService.class);
+        apiService.getCategoriesList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CategoryResponse>() {
+                               @Override
+                               public void onSubscribe(@NonNull Disposable d) {
 
+                               }
+
+                               @Override
+                               public void onNext(@NonNull CategoryResponse selectedResponse) {
+                                   networkCallCategories.onSuccess(selectedResponse.getMeals());
+                                   for (int i = 0; i < selectedResponse.getMeals().size(); i++) {
+                                       Log.d("Countryyyyyyy", "onSuccess: " + selectedResponse.getMeals().get(i).getStrCategory());
+                                   }
+                               }
+
+                               @Override
+                               public void onError(@NonNull Throwable e) {
+                                   Log.e("Error", "Error fetching data");
+                               }
+
+                               @Override
+                               public void onComplete() {
+
+                               }
+                           }
+                );
+        return apiService.getCategoriesList();
+    }
 
     @Override
     public void resultMealsSelectedCategory(NetworkCallBack networkCalBack, String category) {

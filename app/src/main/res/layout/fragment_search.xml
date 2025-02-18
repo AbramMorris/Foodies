@@ -7,17 +7,25 @@
     android:background="@drawable/background"
     tools:context=".ui.Search.SearchFragment">
 
-    <SearchView
-        android:id="@+id/searchview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="@drawable/search_view_bg"
-        android:queryHint="@string/search_here"
+    <EditText
+        android:id="@+id/pt_searchForAllMeals"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/edit_background"
+        android:drawableStart="@drawable/search_view_bg"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="@string/hint_search"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:paddingStart="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:iconifiedByDefault="false"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group_filter"
@@ -28,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchview"
+        app:layout_constraintTop_toBottomOf="@+id/pt_searchForAllMeals"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
@@ -44,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/categories" />
+
         <com.google.android.material.chip.Chip
             android:id="@+id/chip4"
             style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -54,12 +63,14 @@
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_search"
         android:layout_width="409dp"
         android:layout_height="788dp"
         android:layout_marginStart="1dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chip_group_filter" />
 
