@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,7 @@ import com.example.foodrecpie.ui.Search.ModelSearchResponse.SelectedCountryAdapt
 import com.example.foodrecpie.ui.Search.SearchPresenter;
 import com.example.foodrecpie.ui.Search.SearchViewInterface;
 import com.example.foodrecpie.ui.sign_in.Sign_inFragment;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,8 @@ public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnC
     SearchPresenter presenter;
     Button signOut;
     Sign_inFragment sign;
+    FirebaseAuth mAuth;
+
     MealDetailsViewInterface mealDetailsViewInterface;
 
     public HomeFragment() {
@@ -71,16 +75,18 @@ public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnC
         homePressenter = new HomePressenter(this);
         homePressenter.getDailyRandomMeals();
         Intent received = requireActivity().getIntent();
+        mAuth = FirebaseAuth.getInstance();
         homePressenter.getListACountry();
         presenter = new SearchPresenter(this, Repo.getInstance());
         binding.recyclerDailyInspiration.setAdapter(dailyAdapter);
         signOut=view.findViewById(R.id.button3);
+        sign=new Sign_inFragment();
 //        binding.recyclerArea.setAdapter(countryAdapter);
 //        binding.recyclerDailyInspiration.setHasFixedSize(true);
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sign.signOut();
+                signOut();
             }
         });
 
@@ -174,5 +180,10 @@ public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnC
     @Override
     public void showIngMeals(List<IngredientMealResponse.MealsDTO> meals) {
 
+    }
+    public void signOut(){
+        mAuth.signOut();
+        Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
+        Navigation.findNavController(requireView()).navigate(R.id.action_navigation_home_to_navigation_notifications);
     }
 }

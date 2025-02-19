@@ -13,8 +13,8 @@
         android:id="@+id/imageView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="180dp"
         android:src="@drawable/logo_iconn" />
-
 
     <EditText
         android:id="@+id/name_signup"
@@ -38,6 +38,7 @@
         android:ems="10"
         android:hint="@string/password"
         android:textColor="@color/black"
+        android:password="true"
         android:textColorHighlight="@color/black"
         android:textColorHint="@color/black"
         android:textColorLink="@color/black" />
@@ -69,33 +70,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_gravity="center"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"/>
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="369dp"
-            android:layout_height="38dp"
-            android:src="@drawable/line_icon" />
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView3"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="12dp"-->
-<!--            android:src="@drawable/line_icon" />-->
-    </LinearLayout>
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/google_sign_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_fixed"
-        android:backgroundTint="@color/white"
-        android:drawableLeft="@drawable/google"
-        android:paddingStart="10dp"
-        android:layout_gravity="center"
-        android:text="@string/sing_up_by_google"
-        android:textSize="15sp"
-        tools:ignore="MissingConstraints" />
 
 </LinearLayout>

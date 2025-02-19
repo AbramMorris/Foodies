@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignUp extends Fragment implements SignUpViewInterface{
 
@@ -50,12 +51,7 @@ public class SignUp extends Fragment implements SignUpViewInterface{
         super.onViewCreated(view, savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         presenter = new SingUpPresenter(this);
-        boolean isConnected = NetworkConnection.getConnectivity(requireContext());
-        if (isConnected) {
-            Toast.makeText(this.requireContext(), "Network is connected", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this.requireContext(), "Network is not connected", Toast.LENGTH_SHORT).show();
-        }
+
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +78,16 @@ public class SignUp extends Fragment implements SignUpViewInterface{
                     Toast.makeText(getContext(), "There is no internet connection " + "\n" +"Please reconnect and try again", Toast.LENGTH_SHORT).show();
                 }
             }});
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            navController.navigate(R.id.action_signUp_to_navigation_home);
+        }
+        boolean isConnected = NetworkConnection.getConnectivity(requireContext());
+        if (isConnected) {
+            Toast.makeText(this.requireContext(), "Network is connected", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this.requireContext(), "Network is not connected", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

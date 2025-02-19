@@ -91,10 +91,6 @@ repository.getResulrCategoryMeals(this ,categoryName)
                 response -> view.ShowCategoryMeals(response.getMeals()),
                 throwable -> view.showError(throwable.getMessage())
         );
-
-
-
-
 }
     @SuppressLint("CheckResult")
     public void getAreaMeals(String area) {

@@ -116,4 +116,5 @@
     <string name="hint_search">hint_search</string>
     <string name="fav">Fav</string>
     <string name="plan_meal">Plan Meal</string>
+    <string name="guest">Guest</string>
 </resources>
