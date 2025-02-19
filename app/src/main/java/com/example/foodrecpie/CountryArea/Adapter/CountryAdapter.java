@@ -25,14 +25,13 @@ public class CountryAdapter extends RecyclerView.Adapter <CountryAdapter.MyViewH
     Context context;
     List<Meal> country;
 
-    AreaOnClickListner listner;
     CardView cardView;
-    private SelectedCountryAdapter.OnMealClickListener listener;
+    private SelectedCountryAdapter.OnMealClickListener listner;
 
-    public CountryAdapter(Context context, List<Meal> country ,AreaOnClickListner listner) {
+    public CountryAdapter(Context context, List<Meal> country ,SelectedCountryAdapter.OnMealClickListener listener) {
         this.context = context;
         this.country = country;
-        this.listner=listner;
+        this.listner=listener;
     }
 
     public void setAreas(List<Meal> country){
@@ -66,7 +65,7 @@ public class CountryAdapter extends RecyclerView.Adapter <CountryAdapter.MyViewH
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onMealClick(meal.getStrArea());
+                listner.onMealClick(meal.getStrArea());
                 Log.d("Mmmmmm", "onClick: "+meal.getStrArea());
             }
         });

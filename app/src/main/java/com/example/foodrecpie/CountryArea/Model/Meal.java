@@ -1,143 +1,50 @@
 package com.example.foodrecpie.CountryArea.Model;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
-
+import androidx.room.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
-@Entity (tableName = "meals" , primaryKeys = {"NAME" ,"DAY"})
+import java.io.Serializable;
 
-public class Meal {
-
-
-
-    @ColumnInfo(name = "NAME")
+@Entity(tableName = "meal_table", primaryKeys = {"uId","idMeal"} )
+public class Meal implements Serializable {
     @NonNull
-    private String strMeal;
-
-    @ColumnInfo(name = "IMAGE")
-    private String strMealThumb;
-
-    @ColumnInfo(name = "AREA")
-    @SerializedName("strArea")
-    private String strArea;
-
-    public Meal(@NonNull String strMeal) {
-        this.strMeal = strMeal;
-    }
-
-    @ColumnInfo(name = "DAY")
+    public String uId;
     @NonNull
-    private  String day;
-
-    public Meal() {
+    String idMeal;
+    @SerializedName("strMeal")
+    String title;
+    String strCategory;
+    @SerializedName("strMealThumb")
+    String imgUrl;
+    String strYoutube;
+    String strInstructions;
+    String strArea;
+    String strCategorry;
+    String strIngredient1;
+    String strIngredient2;
+    String strIngredient3;
+    String strIngredient4;
+    String strIngredient5;
+    String strIngredient6;
+    String strIngredient7;
+    String strIngredient8;
+    String strIngredient9;
+    String strIngredient10;
+    public String getuId() {
+        return uId;
     }
 
-    public String getDay() {
-        return day;
+    public void setuId(String uId) {
+        this.uId = uId;
+    }
+    public String getStrIngredient7() {
+        return strIngredient7;
     }
 
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    @Ignore
-    private  String strIngredient;
-    @Ignore
-    private String strCategory;
-    @Ignore
-    private String idMeal;
-
-
-
-    @Ignore
-    private String strInstructions;
-
-    @Ignore
-    private String strYoutube;
-    @Ignore
-    private String strIngredient1;
-    @Ignore
-    private String strIngredient2;
-    @Ignore
-    private String strIngredient3;
-    @Ignore
-    private String strIngredient4;
-    @Ignore
-    private String strIngredient5;
-    @Ignore
-    private String strIngredient6;
-    @Ignore
-    private String strIngredient7;
-    @Ignore
-    private String strIngredient8;
-    @Ignore
-    private String strIngredient9;
-    @Ignore
-    private String strIngredient10;
-    @Ignore
-    private String strIngredient11;
-    @Ignore
-    private String strIngredient12;
-    @Ignore
-    private String strIngredient13;
-    @Ignore
-    private String strIngredient14;
-    @Ignore
-    private String strIngredient15;
-    @Ignore
-    private String strIngredient16;
-    @Ignore
-    private String strIngredient17;
-    @Ignore
-    private String strIngredient18;
-    @Ignore
-    private String strIngredient19;
-    @Ignore
-    private String strIngredient20;
-    @Ignore
-    private String strMeasure1;
-    @Ignore
-    private String strMeasure2;
-    @Ignore
-    private String strMeasure3;
-    @Ignore
-    private String strMeasure4;
-    @Ignore
-    private String strMeasure5;
-    @Ignore
-    private String strMeasure6;
-    @Ignore
-    private String strMeasure7;
-    @Ignore
-    private String strMeasure8;
-    @Ignore
-    private String strMeasure9;
-    @Ignore
-    private String strMeasure10;
-    @Ignore
-    private String strMeasure11;
-    @Ignore
-    private String strMeasure12;
-    @Ignore
-    private String strMeasure13;
-    @Ignore
-    private String strMeasure14;
-    @Ignore
-    private String strMeasure15;
-    @Ignore
-    private String strMeasure16;
-    @Ignore
-    private String strMeasure17;
-
-    public String getIdMeal() {
-        return idMeal;
-    }
-
-    public void setIdMeal(String idMeal) {
-        this.idMeal = idMeal;
+    public void setStrIngredient7(String strIngredient7) {
+        this.strIngredient7 = strIngredient7;
     }
 
     public String getStrArea() {
@@ -148,20 +55,12 @@ public class Meal {
         this.strArea = strArea;
     }
 
-    public String getStrInstructions() {
-        return strInstructions;
+    public String getStrCategorry() {
+        return strCategorry;
     }
 
-    public void setStrInstructions(String strInstructions) {
-        this.strInstructions = strInstructions;
-    }
-
-    public String getStrYoutube() {
-        return strYoutube;
-    }
-
-    public void setStrYoutube(String strYoutube) {
-        this.strYoutube = strYoutube;
+    public void setStrCategorry(String strCategorry) {
+        this.strCategorry = strCategorry;
     }
 
     public String getStrIngredient1() {
@@ -210,14 +109,6 @@ public class Meal {
 
     public void setStrIngredient6(String strIngredient6) {
         this.strIngredient6 = strIngredient6;
-    }
-
-    public String getStrIngredient7() {
-        return strIngredient7;
-    }
-
-    public void setStrIngredient7(String strIngredient7) {
-        this.strIngredient7 = strIngredient7;
     }
 
     public String getStrIngredient8() {
@@ -324,218 +215,66 @@ public class Meal {
         this.strIngredient20 = strIngredient20;
     }
 
-    public String getStrMeasure1() {
-        return strMeasure1;
+    String strIngredient11;
+    String strIngredient12;
+    String strIngredient13;
+    String strIngredient14;
+    String strIngredient15;
+    String strIngredient16;
+    String strIngredient17;
+    String strIngredient18;
+    String strIngredient19;
+    String strIngredient20;
+    public  Meal(){}
+
+    public Meal(String uId, @NonNull String idMeal, String title, String strCategory, String imgUrl, String strYoutube, String strInstructions, String strArea, String strCategorry, String strIngredient1, String strIngredient2, String strIngredient3, String strIngredient4, String strIngredient5, String strIngredient6, String strIngredient7, String strIngredient8, String strIngredient9, String strIngredient10, String strIngredient11, String strIngredient12, String strIngredient13, String strIngredient14, String strIngredient15, String strIngredient16, String strIngredient17, String strIngredient18, String strIngredient19, String strIngredient20) {
+        this.uId = uId;
+        this.idMeal = idMeal;
+        this.title = title;
+        this.strCategory = strCategory;
+        this.imgUrl = imgUrl;
+        this.strYoutube = strYoutube;
+        this.strInstructions = strInstructions;
+        this.strArea = strArea;
+        this.strCategorry = strCategorry;
+        this.strIngredient1 = strIngredient1;
+        this.strIngredient2 = strIngredient2;
+        this.strIngredient3 = strIngredient3;
+        this.strIngredient4 = strIngredient4;
+        this.strIngredient5 = strIngredient5;
+        this.strIngredient6 = strIngredient6;
+
+        this.strIngredient7 = strIngredient7;
+        this.strIngredient8 = strIngredient8;
+        this.strIngredient9 = strIngredient9;
+        this.strIngredient10 = strIngredient10;
+        this.strIngredient11 = strIngredient11;
+        this.strIngredient12 = strIngredient12;
+        this.strIngredient13 = strIngredient13;
+        this.strIngredient14 = strIngredient14;
+        this.strIngredient15 = strIngredient15;
+        this.strIngredient16 = strIngredient16;
+        this.strIngredient17 = strIngredient17;
+        this.strIngredient18 = strIngredient18;
+        this.strIngredient19 = strIngredient19;
+        this.strIngredient20 = strIngredient20;
     }
 
-    public void setStrMeasure1(String strMeasure1) {
-        this.strMeasure1 = strMeasure1;
+    public String getIdMeal() {
+        return idMeal;
     }
 
-    public String getStrMeasure2() {
-        return strMeasure2;
+    public void setIdMeal(String idMeal) {
+        this.idMeal = idMeal;
     }
 
-    public void setStrMeasure2(String strMeasure2) {
-        this.strMeasure2 = strMeasure2;
+    public String getTitle() {
+        return title;
     }
 
-    public String getStrMeasure3() {
-        return strMeasure3;
+    public void setTitle(String title) {
+        this.title = title;
     }
-
-    public void setStrMeasure3(String strMeasure3) {
-        this.strMeasure3 = strMeasure3;
-    }
-
-    public String getStrMeasure4() {
-        return strMeasure4;
-    }
-
-    public void setStrMeasure4(String strMeasure4) {
-        this.strMeasure4 = strMeasure4;
-    }
-
-    public String getStrMeasure5() {
-        return strMeasure5;
-    }
-
-    public void setStrMeasure5(String strMeasure5) {
-        this.strMeasure5 = strMeasure5;
-    }
-
-    public String getStrMeasure6() {
-        return strMeasure6;
-    }
-
-    public void setStrMeasure6(String strMeasure6) {
-        this.strMeasure6 = strMeasure6;
-    }
-
-    public String getStrMeasure7() {
-        return strMeasure7;
-    }
-
-    public void setStrMeasure7(String strMeasure7) {
-        this.strMeasure7 = strMeasure7;
-    }
-
-    public String getStrMeasure8() {
-        return strMeasure8;
-    }
-
-    public void setStrMeasure8(String strMeasure8) {
-        this.strMeasure8 = strMeasure8;
-    }
-
-    public String getStrMeasure9() {
-        return strMeasure9;
-    }
-
-    public void setStrMeasure9(String strMeasure9) {
-        this.strMeasure9 = strMeasure9;
-    }
-
-    public String getStrMeasure10() {
-        return strMeasure10;
-    }
-
-    public void setStrMeasure10(String strMeasure10) {
-        this.strMeasure10 = strMeasure10;
-    }
-
-    public String getStrMeasure11() {
-        return strMeasure11;
-    }
-
-    public void setStrMeasure11(String strMeasure11) {
-        this.strMeasure11 = strMeasure11;
-    }
-
-    public String getStrMeasure12() {
-        return strMeasure12;
-    }
-
-    public void setStrMeasure12(String strMeasure12) {
-        this.strMeasure12 = strMeasure12;
-    }
-
-    public String getStrMeasure13() {
-        return strMeasure13;
-    }
-
-    public void setStrMeasure13(String strMeasure13) {
-        this.strMeasure13 = strMeasure13;
-    }
-
-    public String getStrMeasure14() {
-        return strMeasure14;
-    }
-
-    public void setStrMeasure14(String strMeasure14) {
-        this.strMeasure14 = strMeasure14;
-    }
-
-    public String getStrMeasure15() {
-        return strMeasure15;
-    }
-
-    public void setStrMeasure15(String strMeasure15) {
-        this.strMeasure15 = strMeasure15;
-    }
-
-    public String getStrMeasure16() {
-        return strMeasure16;
-    }
-
-    public void setStrMeasure16(String strMeasure16) {
-        this.strMeasure16 = strMeasure16;
-    }
-
-    public String getStrMeasure17() {
-        return strMeasure17;
-    }
-
-    public void setStrMeasure17(String strMeasure17) {
-        this.strMeasure17 = strMeasure17;
-    }
-
-    public String getStrMeasure18() {
-        return strMeasure18;
-    }
-
-    public void setStrMeasure18(String strMeasure18) {
-        this.strMeasure18 = strMeasure18;
-    }
-
-    public String getStrMeasure19() {
-        return strMeasure19;
-    }
-
-    public void setStrMeasure19(String strMeasure19) {
-        this.strMeasure19 = strMeasure19;
-    }
-
-    public String getStrMeasure20() {
-        return strMeasure20;
-    }
-
-    public void setStrMeasure20(String strMeasure20) {
-        this.strMeasure20 = strMeasure20;
-    }
-
-    public String getStrSource() {
-        return strSource;
-    }
-
-    public void setStrSource(String strSource) {
-        this.strSource = strSource;
-    }
-    @Ignore
-
-    private String strMeasure18;
-    @Ignore
-    private String strMeasure19;
-    @Ignore
-    private String strMeasure20;
-    @Ignore
-    private String strSource;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public String getStrCategory() {
         return strCategory;
@@ -545,29 +284,28 @@ public class Meal {
         this.strCategory = strCategory;
     }
 
-    public String getStrMeal() {
-        return strMeal;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public String getStrIngredient() {
-        return strIngredient;
+    public String getStrInstructions() {
+        return strInstructions;
     }
 
-
-
-    public void setStrIngredient(String strIngredient) {
-        this.strIngredient = strIngredient;
+    public void setStrInstructions(String strInstructions) {
+        this.strInstructions = strInstructions;
     }
 
-    public void setStrMeal(String strMeal) {
-        this.strMeal = strMeal;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
-    public String getStrMealThumb() {
-        return strMealThumb;
+    public String getStrYoutube() {
+        return strYoutube;
     }
 
-    public void setStrMealThumb(String strMealThumb) {
-        this.strMealThumb = strMealThumb;
+    public void setStrYoutube(String strYoutube) {
+        this.strYoutube = strYoutube;
     }
+
 }

@@ -27,10 +27,9 @@ public class SelectedResponse {
         ArrayList<HashMap<String , String>> result = new ArrayList<>();
         for(Meal meal :convertedList){
             HashMap<String , String>  resultMap = new HashMap<>();
-               resultMap.put("strMeal",meal.getStrMeal());
-               resultMap.put("strMealThumb",meal.getStrMealThumb());
+               resultMap.put("strMeal",meal.getStrArea());
+               resultMap.put("strMealThumb",meal.getImgUrl());
                resultMap.put("strArea",meal.getStrArea());
-               resultMap.put("day",meal.getDay());
            /*    resultMap.put("strIngredient",meal.getStrIngredient());
                resultMap.put("strCategory",meal.getStrCategory());
                resultMap.put("idMeal",meal.getIdMeal());

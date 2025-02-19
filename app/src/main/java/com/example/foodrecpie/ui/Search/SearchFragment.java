@@ -58,6 +58,7 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
     SelectedAreaOnClickListner listner;
     private IngredientMealsAdapter ingredientMealsAdapter;
 
+
     List<Meal> MyAreas = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
@@ -216,9 +217,13 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
      presenter.getIngMeals(mealId);
     }
 
-//    @Override
-//    public void onAddToFavorite(IngredientMealResponse.MealsDTO meal) {
+    @Override
+    public void onAddToFavorite(IngredientMealResponse.MealsDTO meal) {
 //        presenter.addToFavorite(meal);
-//    }
+    }
+    public void addMealToFav(Meal meal)
+    {
+        presenter.addToFavorite(meal);
+    }
 }
 

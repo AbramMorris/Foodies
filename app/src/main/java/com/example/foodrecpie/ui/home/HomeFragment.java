@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,19 +19,33 @@ import com.example.foodrecpie.CountryArea.AreaOnClickListner;
 import com.example.foodrecpie.CountryArea.Model.Meal;
 import com.example.foodrecpie.Home.MealDetailsViewInterface;
 import com.example.foodrecpie.Model.MealsPOJO;
+import com.example.foodrecpie.Network.Repo;
 import com.example.foodrecpie.Presenter.HomePressenter;
 import com.example.foodrecpie.R;
 import com.example.foodrecpie.databinding.FragmentHomeBinding;
 import com.example.foodrecpie.ui.Meal_Details;
+import com.example.foodrecpie.ui.Search.Data.CategoryResponse;
+import com.example.foodrecpie.ui.Search.Data.IngredientResponse;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.AreaSearchModel;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.CategoryMealResponse;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.IngredientMealResponse;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.SelectedCountryAdapter;
+import com.example.foodrecpie.ui.Search.SearchPresenter;
+import com.example.foodrecpie.ui.Search.SearchViewInterface;
+import com.example.foodrecpie.ui.sign_in.Sign_inFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnClickListner , AreaOnClickListner, DailyAdapter.AdapterHelper {
+public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnClickListner, SearchViewInterface, AreaOnClickListner, SelectedCountryAdapter.OnMealClickListener, DailyAdapter.AdapterHelper {
 
     private FragmentHomeBinding binding;
     private DailyAdapter dailyAdapter;
     HomePressenter homePressenter;
     CountryAdapter countryAdapter;
+    SearchPresenter presenter;
+    Button signOut;
+    Sign_inFragment sign;
     MealDetailsViewInterface mealDetailsViewInterface;
 
     public HomeFragment() {
@@ -57,9 +72,17 @@ public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnC
         homePressenter.getDailyRandomMeals();
         Intent received = requireActivity().getIntent();
         homePressenter.getListACountry();
+        presenter = new SearchPresenter(this, Repo.getInstance());
         binding.recyclerDailyInspiration.setAdapter(dailyAdapter);
+        signOut=view.findViewById(R.id.button3);
 //        binding.recyclerArea.setAdapter(countryAdapter);
 //        binding.recyclerDailyInspiration.setHasFixedSize(true);
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sign.signOut();
+            }
+        });
 
 
 
@@ -110,6 +133,46 @@ public class HomeFragment extends Fragment implements HomeViewInterface ,HomeOnC
     HomeFragmentDirections.ActionNavigationHomeToMealDetails action = HomeFragmentDirections.actionNavigationHomeToMealDetails(id);
     action.setMealId(id);
     Navigation.findNavController(requireView()).navigate(action);
+
+    }
+
+    @Override
+    public void onMealClick(String meal) {
+        presenter.fetchSelectedAreas(meal);
+    }
+
+    @Override
+    public void showCategories(List<CategoryResponse.MealsDTO> categories) {
+
+    }
+
+    @Override
+    public void showAreas(List<Meal> areas) {
+
+    }
+
+    @Override
+    public void showMeals(List<AreaSearchModel.MealsDTO> meals) {
+
+    }
+
+    @Override
+    public void showIngredients(List<IngredientResponse.MealsDTO> ingredients) {
+
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @Override
+    public void ShowCategoryMeals(List<CategoryMealResponse.MealsDTO> meals) {
+
+    }
+
+    @Override
+    public void showIngMeals(List<IngredientMealResponse.MealsDTO> meals) {
 
     }
 }

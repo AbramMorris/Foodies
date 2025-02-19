@@ -44,11 +44,11 @@ public class IngredientMealsAdapter extends RecyclerView.Adapter<IngredientMeals
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         IngredientMealResponse.MealsDTO meal = meals.get(position);
         holder.mealName.setText(meal.getStrMeal());
-//        holder.addToFav.setChecked(false);
+        holder.addToFav.setChecked(false);
 //        holder.addToFav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
 //            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                presenter.addToFavorite();
+//                presenter.addToFavorite(meals);
 //            }
 //        });
 
@@ -91,7 +91,7 @@ public class IngredientMealsAdapter extends RecyclerView.Adapter<IngredientMeals
 
     public interface OnIngredientClickListener {
         void onIngredientMealClick(String mealId);
-//        void onAddToFavorite(IngredientMealResponse.MealsDTO meal);
+        void onAddToFavorite(IngredientMealResponse.MealsDTO meal);
     }
 }
 

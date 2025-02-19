@@ -81,40 +81,6 @@ public class Repo implements RepoInterface {
 //
 //    }
 
-    @Override
-    public io.reactivex.Observable<List<Meal>> getSutrdaydmeals() {
-        return null;
-    }
-
-    @Override
-    public io.reactivex.Observable<List<Meal>> getSundaydmeals() {
-        return null;
-    }
-
-    @Override
-    public io.reactivex.Observable<List<Meal>> getMondaymeals() {
-        return null;
-    }
-
-    @Override
-    public io.reactivex.Observable<List<Meal>> getTusdaymeals() {
-        return null;
-    }
-
-    @Override
-    public io.reactivex.Observable<List<Meal>> getWednsdaymeals() {
-        return null;
-    }
-
-    @Override
-    public io.reactivex.Observable<List<Meal>> getThursdaymeals() {
-        return null;
-    }
-
-    @Override
-    public io.reactivex.Observable<List<Meal>> getFridaymeals() {
-        return null;
-    }
 
 
     @Override

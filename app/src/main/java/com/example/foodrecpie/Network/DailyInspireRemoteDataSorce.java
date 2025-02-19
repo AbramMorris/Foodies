@@ -288,8 +288,8 @@ return apiService.getCategories(category);
 
                     }
                 });
-        return apiService.getIngredients(ingredient);
 
+        return apiService.getIngredients(ingredient);
     }
     @Override
     public void resultMealsSelectedCategory(NetworkCallCategoriesMeals networkCalBack, String category) {

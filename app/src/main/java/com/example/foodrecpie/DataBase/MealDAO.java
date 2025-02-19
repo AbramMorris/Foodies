@@ -15,29 +15,15 @@ import io.reactivex.Observable;
 
 @Dao
 public interface MealDAO {
-    @Query("SELECT * FROM meals WHERE DAY LIKE '0'")
+    @Query("SELECT * FROM meal_table")
     Observable<List<Meal>> getAllmeals();
-    @Query("DELETE FROM meals")
+    @Query("DELETE FROM meal_table")
     Completable deleteAllMeals();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     io.reactivex.rxjava3.core.Completable insertMeal (Meal meal);
     @Delete
     io.reactivex.rxjava3.core.Completable deleteMeal (Meal meal);
-    @Query("SELECT * FROM meals WHERE DAY LIKE '1'")
-    Observable<List<Meal>> getSaturdaymeals();
-    @Query("SELECT * FROM meals WHERE DAY LIKE '2'")
-    Observable<List<Meal>> getSundaymeals();
-    @Query("SELECT * FROM meals WHERE DAY LIKE '3'")
-    Observable<List<Meal>> getMondaymeals();
-    @Query("SELECT * FROM meals WHERE DAY LIKE '4'")
-    Observable<List<Meal>> getTusdaymeals();
-    @Query("SELECT * FROM meals WHERE DAY LIKE '5'")
-    Observable<List<Meal>> getWednsdaymeals();
-    @Query("SELECT * FROM meals WHERE DAY LIKE '6'")
-    Observable<List<Meal>> getThursdaymeals();
-    @Query("SELECT * FROM meals WHERE DAY LIKE '7'")
-    Observable<List<Meal>> getFridaymeals();
 
 
 
