@@ -114,4 +114,6 @@
     <string name="countries">Countries</string>
     <string name="search">Search</string>
     <string name="hint_search">hint_search</string>
+    <string name="fav">Fav</string>
+    <string name="plan_meal">Plan Meal</string>
 </resources>
