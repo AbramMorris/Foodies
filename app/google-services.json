@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "205726963521",
+    "project_id": "foodrecpie-3cd03",
+    "storage_bucket": "foodrecpie-3cd03.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205726963521:android:414667ccf6524b108bf3c0",
+        "android_client_info": {
+          "package_name": "com.example.foodrecpie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "205726963521-qcgntfmrssrmjo9m8bt6alba1nk8pom5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodrecpie",
+            "certificate_hash": "475a1982cab5013ac4915ebced5b486ff99f541f"
+          }
+        },
+        {
+          "client_id": "205726963521-6ldh0613cfmnvd3686457gbn9h3pjd10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcapbuWDo4BP7rT_Iar5DdCUAe5HEUGvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205726963521-6ldh0613cfmnvd3686457gbn9h3pjd10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,53 +1,49 @@
 package com.example.foodrecpie.Presenter;
 
 
-import android.content.Intent;
-
+import com.example.foodrecpie.CountryArea.Model.Meal;
+import com.example.foodrecpie.CountryArea.NetworkCallBackCountry;
+import com.example.foodrecpie.ui.home.HomeViewInterface;
 import com.example.foodrecpie.Model.MealsPOJO;
-import com.example.foodrecpie.GeneralRepositoryModel.GeneralRepositoryInterface;
-import com.example.foodrecpie.Network.AreaNetworkDelegate;
-import com.example.foodrecpie.area.selectedArea.model.Meal;
+import com.example.foodrecpie.Network.NetworkCallBack;
+import com.example.foodrecpie.Network.Repo;
 
-import com.example.foodrecpie.area.selectedArea.model.SelectedResponse;
-import com.example.foodrecpie.home.view.HomeViewInterface;
+import java.util.List;
 
-import java.util.ArrayList;
+public class HomePressenter implements HomePressenterInterface , NetworkCallBack , NetworkCallBackCountry {
 
-public class HomePressenter implements HomePressenterInterface , AreaNetworkDelegate {
 
-    GeneralRepositoryInterface genral ;
     HomeViewInterface view ;
+    Repo repo;
 
-    public HomePressenter(GeneralRepositoryInterface genral, HomeViewInterface view) {
-        this.genral = genral;
+    public HomePressenter(  HomeViewInterface view) {
         this.view = view;
+        this.repo = Repo.getInstance();
     }
 
 
 
     @Override
     public void getDailyRandomMeals() {
-        genral.resultAllMeals(this);
+       repo.getAllProducts(this);
+    }
+    @Override
+    public void onSuccess(List<MealsPOJO> mealList) {
+        view.showRandomMeals(mealList);
     }
 
     @Override
-    public void addToFavorite(Meal meal) {
-        genral.insert(meal);
+    public void onSuccessCountry(List<Meal> selectedResponse) {
+        view.showCountry(selectedResponse);
     }
 
     @Override
-    public void deleteAllMeals() {
-        genral.deleteAllMeals();
+    public void onFailure(String errorMessage) {
+
     }
-
     @Override
-    public void onSuccessResponse(ArrayList<MealsPOJO> response) {
-        view.showRandomMeals(response);
-    }
-
-    @Override
-    public void onFailureResponse(String response) {
-
+    public void getListACountry(){
+        repo.getListAreaCountry(this);
     }
 }
 

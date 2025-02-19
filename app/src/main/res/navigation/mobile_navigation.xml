@@ -9,7 +9,14 @@
         android:id="@+id/navigation_home"
         android:name="com.example.foodrecpie.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_meal_Details"
+            app:destination="@id/meal_Details" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_notifications"
+            app:destination="@id/navigation_notifications" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -40,5 +47,56 @@
         <action
             android:id="@+id/action_signUp_to_navigation_home"
             app:destination="@id/navigation_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.foodrecpie.ui.Search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_meal_Details"
+            app:destination="@id/meal_Details" />
+    </fragment>
+    <fragment
+        android:id="@+id/meal_Details"
+        android:name="com.example.foodrecpie.ui.Meal_Details"
+        android:label="Meal_Details" >
+        <argument
+            android:name="mealId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/favListFrag"
+        android:name="com.example.foodrecpie.FavListFrag"
+        android:label="fragment_fav_list"
+        tools:layout="@layout/fragment_fav_list" >
+        <action
+            android:id="@+id/action_favListFrag_to_favDetailsFragment"
+            app:destination="@id/favDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/planMealFrag"
+        android:name="com.example.foodrecpie.PlanMealFrag"
+        android:label="fragment_plan_meal"
+        tools:layout="@layout/fragment_plan_meal" >
+        <action
+            android:id="@+id/action_planMealFrag_to_planDetailFragment"
+            app:destination="@id/planDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favDetailsFragment"
+        android:name="com.example.foodrecpie.OfflineFavDetails.FavDetailsFragment"
+        android:label="FavDetailsFragment" >
+        <argument
+            android:name="favMeal"
+            app:argType="com.example.foodrecpie.Model.FavModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/planDetailFragment"
+        android:name="com.example.foodrecpie.OfflinePlanDetails.PlanDetailFragment"
+        android:label="PlanDetailFragment" >
+        <argument
+            android:name="PlanModel"
+            app:argType="com.example.foodrecpie.Model.PlanModel" />
     </fragment>
 </navigation>

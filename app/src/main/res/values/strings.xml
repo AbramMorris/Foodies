@@ -14,6 +14,8 @@
     <string name="sing_up_by_google">sing up by google</string>
     <string name="orr">OR</string>
     <string name="large_text">
+        <String name="205726963521-6ldh0613cfmnvd3686457gbn9h3pjd10.apps.googleusercontent.com
+">  default_web_client_id</String>
         "Material is the metaphor.\n\n"
 
         "A material metaphor is the unifying theory of a rationalized space and a system of motion."
@@ -107,4 +109,12 @@
     <string name="categories">Categories</string>
     <string name="ingredient">Ingredient</string>
     <string name="daily_inspiration">Daily Inspiration</string>
+    <string name="dropdawn_hint">DropDawn_hint</string>
+    <string name="add_to_plan">Add To Plan</string>
+    <string name="countries">Countries</string>
+    <string name="search">Search</string>
+    <string name="hint_search">hint_search</string>
+    <string name="fav">Fav</string>
+    <string name="plan_meal">Plan Meal</string>
+    <string name="guest">Guest</string>
 </resources>
