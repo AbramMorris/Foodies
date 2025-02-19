@@ -4,14 +4,19 @@ import android.content.Context;
 
 
 import com.example.foodrecpie.CountryArea.Model.Meal;
+import com.example.foodrecpie.Model.FavModel;
+import com.example.foodrecpie.Model.PlanModel;
 
 import java.util.List;
 
-import io.reactivex.CompletableObserver;
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
+
+
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class DataBaseRepository implements LocalSource {
     private Context context ;
@@ -22,7 +27,7 @@ public class DataBaseRepository implements LocalSource {
         this.context = context;
         AppDataBase db =AppDataBase.getInstance(context.getApplicationContext());
         mealDAO = db.mealsDAO();
-        storedMeals = mealDAO.getAllmeals();
+//        storedMeals = mealDAO.getAllmeals();
     }
 
     private static  DataBaseRepository repo = null ;
@@ -34,18 +39,41 @@ public class DataBaseRepository implements LocalSource {
         return repo;
     }
 
+
     @Override
-    public Observable<List<Meal>> getStoredmeals() {
-        return storedMeals;
+    public Completable insertFavMeal(FavModel meal) {
+        return mealDAO.insertFavMeal(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Completable delete(Meal meal) {
-       return mealDAO.deleteMeal(meal);
+    public Completable deleteFavMeal(FavModel meal) {
+        return mealDAO.deleteFavMeal(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+    public Single<List<FavModel>> getFavMeals(String id) {
+        return mealDAO.getFavMeals(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
-    @Override
-    public Completable insert(Meal meal) {
-       return mealDAO.insertMeal(meal);
+    public Completable insertPlanMeal(PlanModel meal) {
+        return mealDAO.insertPlanMeal(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+    public Completable deletePlanMeal(PlanModel meal) {
+        return mealDAO.deletePlanMeal(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+    public Single<List<PlanModel>> getPlanMeals(String id , String date) {
+        return mealDAO.getPlanMeals(id,date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

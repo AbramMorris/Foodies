@@ -6,26 +6,33 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.foodrecpie.CountryArea.Model.Meal;
+import com.example.foodrecpie.Model.FavModel;
+import com.example.foodrecpie.Model.PlanModel;
 
 import java.util.List;
 
-import io.reactivex.Completable;
-import io.reactivex.Observable;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
+
 
 @Dao
 public interface MealDAO {
-    @Query("SELECT * FROM meal_table")
-    Observable<List<Meal>> getAllmeals();
-    @Query("DELETE FROM meal_table")
-    Completable deleteAllMeals();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    io.reactivex.rxjava3.core.Completable insertMeal (Meal meal);
+    Completable insertFavMeal(FavModel meal);
     @Delete
-    io.reactivex.rxjava3.core.Completable deleteMeal (Meal meal);
+    Completable deleteFavMeal(FavModel meal);
+    @Query("SELECT * FROM fav_meal_table WHERE userId = :id")
+    Single<List<FavModel>> getFavMeals(String id);
 
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    Completable insertPlanMeal(PlanModel meal);
+    @Delete
+    Completable deletePlanMeal(PlanModel meal);
+    @Query("SELECT * FROM plan_meal_table WHERE userId = :id AND date = :date")
+    Single<List<PlanModel>> getPlanMeals(String id , String date);
 
 
 }

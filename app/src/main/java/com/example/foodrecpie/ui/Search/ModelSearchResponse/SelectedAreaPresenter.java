@@ -5,9 +5,11 @@ import com.example.foodrecpie.CountryArea.Model.Meal;
 import com.example.foodrecpie.CountryArea.NetworkCallBackCountry;
 import com.example.foodrecpie.Model.NetworkCallArea;
 
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
+
 import java.util.List;
+
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class SelectedAreaPresenter implements SelectedAreaContract.Presenter, NetworkCallArea {
 

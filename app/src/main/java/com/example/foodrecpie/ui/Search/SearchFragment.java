@@ -13,12 +13,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodrecpie.CountryArea.Adapter.CountryAdapter;
 import com.example.foodrecpie.CountryArea.AreaOnClickListner;
 import com.example.foodrecpie.CountryArea.Model.Meal;
+import com.example.foodrecpie.MainActivity;
 import com.example.foodrecpie.Presenter.SelectedAreaViewInterface;
 import com.example.foodrecpie.R;
 import com.example.foodrecpie.Network.Repo;
@@ -65,6 +67,9 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        MainActivity activity = (MainActivity) requireActivity();
+        activity.showBottomNav();
         recyclerView = view.findViewById(R.id.recycler_search);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         cardView = view.findViewById(R.id.area_view_Card);
@@ -130,9 +135,15 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
 
     @Override
     public void showMeals(List<AreaSearchModel.MealsDTO> meals) {
-        ad = new SelectedCountryAdapter(getContext(),meals,this);
+        ad = new SelectedCountryAdapter(meals);
         recyclerView.setAdapter(ad);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ad.setListener(new SelectedCountryAdapter.OnMealClickListener() {
+            @Override
+            public void onMealClick(String meal) {
+                navigateToDetails(meal);
+            }
+        });
 //        presenter.getAreaMeals(meals);
     }
 
@@ -156,16 +167,32 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
 
     @Override
     public void ShowCategoryMeals(List<CategoryMealResponse.MealsDTO> meals) {
-        categoryMealsAdapter = new CategoryMealsAdapter(getContext(), meals,this);
+        categoryMealsAdapter = new CategoryMealsAdapter(meals);
         recyclerView.setAdapter(categoryMealsAdapter);
-
+        categoryMealsAdapter.setListener(new CategoryMealsAdapter.OnCatClickListener() {
+            @Override
+            public void onCatClick(String mealId) {
+                navigateToDetails(mealId);
+            }
+        });
     }
 
     @Override
     public void showIngMeals(List<IngredientMealResponse.MealsDTO> meals) {
-        ingredientMealsAdapter = new IngredientMealsAdapter(getContext(), meals,this);
+        ingredientMealsAdapter = new IngredientMealsAdapter( meals);
         recyclerView.setAdapter(ingredientMealsAdapter);
+        ingredientMealsAdapter.setListener(new IngredientMealsAdapter.OnIngredientClickListener() {
+            @Override
+            public void onIngredientMealClick(String mealId) {
+                navigateToDetails(mealId);
+            }
+        });
 
+    }
+
+    private void navigateToDetails(String meal) {
+        Navigation.findNavController(requireView())
+                .navigate(SearchFragmentDirections.actionSearchFragmentToMealDetails(meal));
     }
 
 
@@ -217,13 +244,10 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
      presenter.getIngMeals(mealId);
     }
 
-    @Override
-    public void onAddToFavorite(IngredientMealResponse.MealsDTO meal) {
-//        presenter.addToFavorite(meal);
-    }
+
     public void addMealToFav(Meal meal)
     {
-        presenter.addToFavorite(meal);
+//        presenter.addToFavorite(meal);
     }
 }
 

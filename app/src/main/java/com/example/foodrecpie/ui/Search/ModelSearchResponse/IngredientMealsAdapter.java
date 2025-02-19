@@ -23,13 +23,14 @@ import java.util.List;
 public class IngredientMealsAdapter extends RecyclerView.Adapter<IngredientMealsAdapter.ViewHolder> {
 
     private List<IngredientMealResponse.MealsDTO> meals;
-    private Context context;
     private OnIngredientClickListener listener;
-    private SearchPresenter presenter;
 
-    public IngredientMealsAdapter(Context context, List<IngredientMealResponse.MealsDTO> meals, OnIngredientClickListener listener) {
-        this.context = context;
+
+    public IngredientMealsAdapter(List<IngredientMealResponse.MealsDTO> meals) {
         this.meals = meals != null ? meals : new ArrayList<>();
+    }
+
+    public void setListener(OnIngredientClickListener listener) {
         this.listener = listener;
     }
 
@@ -53,7 +54,7 @@ public class IngredientMealsAdapter extends RecyclerView.Adapter<IngredientMeals
 //        });
 
         // Load meal image using Glide
-        Glide.with(context).load(meal.getStrMealThumb()).into(holder.mealImage);
+        Glide.with(holder.itemView.getContext()).load(meal.getStrMealThumb()).into(holder.mealImage);
 
         // Handle click event
         holder.layout.setOnClickListener(v -> {
@@ -91,7 +92,6 @@ public class IngredientMealsAdapter extends RecyclerView.Adapter<IngredientMeals
 
     public interface OnIngredientClickListener {
         void onIngredientMealClick(String mealId);
-        void onAddToFavorite(IngredientMealResponse.MealsDTO meal);
     }
 }
 

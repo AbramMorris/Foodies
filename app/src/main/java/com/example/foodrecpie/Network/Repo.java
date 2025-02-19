@@ -5,6 +5,7 @@ import static com.example.foodrecpie.Network.DailyInspireRemoteDataSorce.getData
 import com.example.foodrecpie.CountryArea.Model.Meal;
 import com.example.foodrecpie.CountryArea.Model.SelectedResponse;
 import com.example.foodrecpie.CountryArea.NetworkCallBackCountry;
+import com.example.foodrecpie.Model.FavModel;
 import com.example.foodrecpie.Model.NetworkCallArea;
 import com.example.foodrecpie.Model.RandemMealsPojo;
 import com.example.foodrecpie.ui.Search.Data.CategoryResponse;
@@ -59,22 +60,18 @@ public class Repo implements RepoInterface {
 
     }
 
-    @Override
-    public io.reactivex.Observable<List<Meal>> getStoredmeals() {
-        return null;
-    }
 
-    @Override
-    public Completable delete(Meal meal) {
+//    @Override
+//    public Completable delete(Meal meal) {
+//
+//        return null;
+//    }
 
-        return null;
-    }
-
-    @Override
-    public Completable insert(Meal meal) {
-
-        return null;
-    }
+//    @Override
+//    public Completable insert(Meal meal) {
+//
+//        return null;
+//    }
 
 //    @Override
 //    public void deleteAllMeals() {
@@ -134,6 +131,16 @@ public Single<IngredientMealResponse> getIngMealsName(NetworkCallIngredientsMeal
     @Override
     public void resultMealBySearch(NetworkCallBack networkDelegate, String searchLitter) {
 
+    }
+
+    @Override
+    public Completable insertFavMeal(FavModel meal) {
+        return null;
+    }
+
+    @Override
+    public Completable deleteFavMeal(FavModel meal) {
+        return null;
     }
 
 //    public Observable<AreaResponse> getAreas() {

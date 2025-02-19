@@ -175,9 +175,9 @@ public void getIngMeals(String ingredient){
     public void onSuccessIngredientsMeal(List<IngredientMealResponse.MealsDTO> ingredientMeals) {
         view.showIngMeals(ingredientMeals);
     }
-    public void addToFavorite(Meal meal) {
-        repository.insert(meal);
-    }
+//    public void addToFavorite(Meal meal) {
+//        repository.insert(meal);
+//    }
 //    public void removeFromFavorite(Meal meal) {
 //        repository.delete(meal);
 //    }

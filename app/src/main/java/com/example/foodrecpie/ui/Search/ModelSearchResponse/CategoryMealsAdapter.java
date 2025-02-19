@@ -23,12 +23,13 @@ import java.util.List;
 public class CategoryMealsAdapter extends RecyclerView.Adapter<CategoryMealsAdapter.ViewHolder> {
 
     private List<CategoryMealResponse.MealsDTO> meals;
-    private Context context;
     private OnCatClickListener listener;
 
-    public CategoryMealsAdapter(Context context, List<CategoryMealResponse.MealsDTO> meals, OnCatClickListener listener) {
-        this.context = context;
+    public CategoryMealsAdapter(List<CategoryMealResponse.MealsDTO> meals) {
         this.meals = meals != null ? meals : new ArrayList<>();
+    }
+
+    public void setListener(OnCatClickListener listener) {
         this.listener = listener;
     }
 
@@ -45,14 +46,14 @@ public class CategoryMealsAdapter extends RecyclerView.Adapter<CategoryMealsAdap
         holder.mealName.setText(meal.getStrMeal());
 
         // Load meal image using Glide
-        Glide.with(context).load(meal.getStrMealThumb()).into(holder.mealImage);
+        Glide.with(holder.itemView.getContext()).load(meal.getStrMealThumb()).into(holder.mealImage);
 
-        // Handle click event
-//        holder.layout.setOnClickListener(v -> {
-//            if (listener != null) {
-//                listener.onMealClick(meal.getIdMeal());  // Pass the meal ID for further details
-//            }
-//        });
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCatClick(meal.getIdMeal());
+            }
+        });
     }
 
     @Override

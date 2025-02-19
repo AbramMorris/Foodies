@@ -1,127 +1,72 @@
-package com.example.foodrecpie.ui;
+package com.example.foodrecpie.OfflinePlanDetails;
 
-import android.app.DatePickerDialog;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
-import com.example.foodrecpie.CountryArea.Model.Meal;
-import com.example.foodrecpie.DataBase.DataBaseRepository;
 import com.example.foodrecpie.Details.MealDetailAdapter;
 import com.example.foodrecpie.Details.MealIngredients;
-import com.example.foodrecpie.Home.MealDetailsPresenter;
-import com.example.foodrecpie.Home.MealDetailsViewInterface;
 import com.example.foodrecpie.MainActivity;
 import com.example.foodrecpie.Model.FavModel;
 import com.example.foodrecpie.Model.MealDetailResponse;
 import com.example.foodrecpie.Model.PlanModel;
-import com.example.foodrecpie.Presenter.MealDetailPresenter;
-import com.example.foodrecpie.Network.Repo;
-import com.example.foodrecpie.databinding.FragmentMealDetailsBinding;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.foodrecpie.R;
+import com.example.foodrecpie.databinding.FragmentFavDetailsBinding;
+import com.example.foodrecpie.databinding.FragmentPlanDetailBinding;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.StringTokenizer;
 
-public class Meal_Details extends Fragment implements MealDetailsViewInterface {
-    private FragmentMealDetailsBinding binding;
-    private MealDetailsPresenter presenter;
-    String VideoUrl;
-    private  int stepNo = 0;
+
+public class PlanDetailFragment extends Fragment {
+
+    FragmentPlanDetailBinding binding;
+    PlanModel planModel;
     ArrayList<MealIngredients> resultToShow ;
-    MealDetailAdapter adapter ;
-    ToggleButton addToFavourite ;
-    FirebaseAuth firebaseAuth;
-    private Meal selectedSearchMeal;
-    FirebaseUser user ;
-    MealDetailPresenter present;
-
-
-    public Meal_Details() {
-        // Required empty public constructor
-    }
-
+    String VideoUrl ;
+    private  int stepNo = 0;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        presenter = new MealDetailsPresenter(this, Repo.getInstance(), DataBaseRepository.getInstance(getContext()));
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_meal__details, container, false);
-        binding = FragmentMealDetailsBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_plan_detail, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         MainActivity activity = (MainActivity) requireActivity();
         activity.hideBottomNav();
-
-        if(user!=null){
-            binding.btnAddMealDetailToFav.setVisibility( View.VISIBLE);
-
-        }else{
-            binding.btnAddMealDetailToFav.setVisibility( View.GONE);
-        }
-        String mealid = Meal_DetailsArgs.fromBundle(getArguments()).getMealId();
-        Bundle args = getArguments();
-        if (args != null && args.containsKey("mealId")) {
-            String strMeal = args.getString("mealId");
-            presenter.getMealDetails(strMeal);
-            Log.i("Abraaaaaam", "onViewCreated: "+strMeal);
-        }
+        binding = FragmentPlanDetailBinding.bind(view);
+        planModel=PlanDetailFragmentArgs.fromBundle(getArguments()).getPlanModel();
+        showMealDetails(planModel.getMeal());
     }
 
-    @Override
+
     public void showMealDetails(MealDetailResponse.MealsDTO meal) {
-
-        binding.daysDropDawn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePicker(meal);
-            }
-        });
-
         binding.mealname.setText(meal.getStrMeal());
         binding.mealContry.setText(meal.getStrArea());
         binding.mealCategory.setText(meal.getStrCategory());
         binding.textView3.setText(meal.getStrInstructions());
         resultToShow = prepareIngredient(meal);
-        adapter = new MealDetailAdapter( getContext());
-        adapter.setList(resultToShow);
-        adapter.notifyDataSetChanged();
         StringTokenizer st = new StringTokenizer(meal.getStrInstructions(), ".");
         while (st.hasMoreTokens()){
             binding.steps.append("Step "+String.valueOf(stepNo+1)+"\n"+st.nextToken()+"\n");
             stepNo++;
 
         }
+
+
 
         Glide.with(this).load(meal.getStrMealThumb()).into(binding.imgDetailsMeal);
 
@@ -146,14 +91,6 @@ public class Meal_Details extends Fragment implements MealDetailsViewInterface {
 
 
 
-        binding.btnAddMealDetailToFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FavModel favModel = new FavModel(user.getUid(),meal);
-
-                presenter.addToFavorite(favModel);
-            }
-        });
 
 
     }
@@ -202,39 +139,6 @@ public class Meal_Details extends Fragment implements MealDetailsViewInterface {
             ingredientsList.add(new MealIngredients(meal.getStrIngredient20(), meal.getStrMeasure20()));
         }
         return  ingredientsList;
-    }
-    @Override
-    public void showError(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void showDatePicker(MealDetailResponse.MealsDTO meal) {
-        final Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                requireContext(),
-                (view, selectedYear, selectedMonth, selectedDay) -> {
-                    String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
-                    addToPlan(meal , selectedDate);
-                },
-                year, month, day
-        );
-
-        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
-
-        calendar.add(Calendar.DAY_OF_MONTH, 6);
-        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-
-        datePickerDialog.show();
-    }
-
-    private void addToPlan(MealDetailResponse.MealsDTO meal, String selectedDate){
-        String userId = user.getUid();
-        PlanModel planModel = new PlanModel(userId,selectedDate,meal);
-        presenter.insertPlanMeal(planModel);
     }
 
 

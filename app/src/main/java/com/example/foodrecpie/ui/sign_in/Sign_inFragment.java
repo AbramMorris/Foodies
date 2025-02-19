@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.foodrecpie.MainActivity;
 import com.example.foodrecpie.R;
 import com.example.foodrecpie.databinding.FragmentSignInBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -53,6 +54,9 @@ public class Sign_inFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        MainActivity activity = (MainActivity) requireActivity();
+        activity.hideBottomNav();
 
         // Initialize UI Components
         signup = view.findViewById(R.id.textView);

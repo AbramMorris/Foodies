@@ -24,13 +24,13 @@ import java.util.List;
 public class SelectedCountryAdapter extends RecyclerView.Adapter<SelectedCountryAdapter.ViewHolder> {
 
     private List<AreaSearchModel.MealsDTO> meals;
-    private Context context;
     private OnMealClickListener listener;
-    private SearchPresenter presenter;
 
-    public SelectedCountryAdapter(Context context, List<AreaSearchModel.MealsDTO> meals, OnMealClickListener listener) {
-        this.context = context;
+    public SelectedCountryAdapter(List<AreaSearchModel.MealsDTO> meals) {
         this.meals = meals;
+    }
+
+    public void setListener(OnMealClickListener listener) {
         this.listener = listener;
     }
 
@@ -46,10 +46,14 @@ public class SelectedCountryAdapter extends RecyclerView.Adapter<SelectedCountry
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AreaSearchModel.MealsDTO meal = meals.get(position);
         holder.mealName.setText(meal.getStrMeal());
+        Glide.with(holder.itemView.getContext()).load(meal.getStrMealThumb()).into(holder.mealImage);
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onMealClick(meal.getIdMeal());
+            }
+        });
 
-
-        // Load meal image using Glide
-        Glide.with(context).load(meal.getStrMealThumb()).into(holder.mealImage);
 
         // Handle click event
 //        holder.layout.setOnClickListener(v -> {

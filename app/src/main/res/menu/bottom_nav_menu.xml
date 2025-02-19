@@ -12,10 +12,10 @@
         android:title="@string/search" />
 
     <item
-        android:id="@+id/fav_recyle_view"
+        android:id="@+id/favListFrag"
         android:title="@string/fav" />
     <item
-        android:id="@+id/day_plan"
+        android:id="@+id/planMealFrag"
         android:title="@string/plan_meal" />
 
 
