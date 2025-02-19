@@ -2,12 +2,11 @@ package com.example.foodrecpie.Presenter;
 
 
 import com.example.foodrecpie.CountryArea.Model.Meal;
-import com.example.foodrecpie.CountryArea.Model.SelectedResponse;
 import com.example.foodrecpie.CountryArea.NetworkCallBackCountry;
 import com.example.foodrecpie.ui.home.HomeViewInterface;
 import com.example.foodrecpie.Model.MealsPOJO;
 import com.example.foodrecpie.Network.NetworkCallBack;
-import com.example.foodrecpie.Repo;
+import com.example.foodrecpie.Network.Repo;
 
 import java.util.List;
 

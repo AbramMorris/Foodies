@@ -2,7 +2,7 @@ package com.example.foodrecpie.ui.Search.ModelSearchResponse;
 
 import java.util.List;
 
-public class MealSearchResponse {
+public class AreaSearchModel {
 
     private List<MealsDTO> meals;
 

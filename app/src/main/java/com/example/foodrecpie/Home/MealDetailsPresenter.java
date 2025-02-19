@@ -4,16 +4,11 @@ import static com.example.foodrecpie.Network.DailyInspireRemoteDataSorce.getData
 
 import android.util.Log;
 
-import com.example.foodrecpie.CountryArea.Model.SelectedResponse;
-import com.example.foodrecpie.Model.MealsPOJO;
 import com.example.foodrecpie.Network.ApiService;
-import com.example.foodrecpie.Repo;
+import com.example.foodrecpie.Network.Repo;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MealDetailsPresenter {
     private MealDetailsViewInterface view;

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="30dp"
+    app:cardBackgroundColor="@color/card_backgroud"
+
+    app:cardElevation="30dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cons_lay_Selected_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ToggleButton
+            android:id="@+id/btn_addToFav"
+            android:layout_width="39dp"
+            android:layout_height="31dp"
+
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/baseline_favorite_border_24"
+            android:text="ToggleButton"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_calender_meal_name"
+            android:layout_width="243dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:drawableStart="@drawable/baseline_fastfood_24"
+            android:drawablePadding="12dp"
+            android:paddingStart="12dp"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:paddingTop="5dp"
+            android:textAlignment="gravity"
+            app:layout_constraintBottom_toTopOf="@+id/days_drop_dawn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.444"
+            app:layout_constraintStart_toEndOf="@+id/cardView3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.767" />
+
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/days_drop_dawn"
+            android:layout_width="210dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edit_background"
+            android:completionHint="select a day"
+            android:completionThreshold="0"
+            android:drawableStart="@drawable/baseline_edit_calendar_24"
+            android:editable="false"
+            android:hint="@string/add_to_plan"
+            android:paddingStart="12dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:textAlignment="center"
+            android:textColorHint="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView3"
+            tools:ignore="Deprecated" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            app:cardCornerRadius="110dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/img_calender_meal"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                tools:srcCompat="@drawable/ic_launcher_foreground" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

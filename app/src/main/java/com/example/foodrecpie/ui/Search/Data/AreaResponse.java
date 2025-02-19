@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class AreaResponse {
-    private List<Area> meals;
+    private List<MealsDTO> meals;
 
-    public List<Area> getMeals() { return meals; }
+    public List<MealsDTO> getMeals() { return meals; }
 
-    public static class Area {
+    public static class MealsDTO {
         @SerializedName("strArea")
         private String areaName;
 

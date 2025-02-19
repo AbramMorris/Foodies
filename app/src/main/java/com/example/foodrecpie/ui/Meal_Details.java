@@ -10,16 +10,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
+import com.example.foodrecpie.CountryArea.Model.Meal;
+import com.example.foodrecpie.DataBase.FirebaseDataBase;
 import com.example.foodrecpie.Details.MealDetailAdapter;
 import com.example.foodrecpie.Details.MealIngredients;
 import com.example.foodrecpie.Home.MealDetailsPresenter;
 import com.example.foodrecpie.Home.MealDetailsViewInterface;
 import com.example.foodrecpie.Model.MealDetailResponse;
-import com.example.foodrecpie.Repo;
+import com.example.foodrecpie.Presenter.MealDetailPresenter;
+import com.example.foodrecpie.R;
+import com.example.foodrecpie.Network.Repo;
 import com.example.foodrecpie.databinding.FragmentMealDetailsBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 
@@ -33,6 +41,12 @@ public class Meal_Details extends Fragment implements MealDetailsViewInterface {
     private  int stepNo = 0;
     ArrayList<MealIngredients> resultToShow ;
     MealDetailAdapter adapter ;
+    ToggleButton addToFavourite ;
+    FirebaseAuth firebaseAuth;
+    private Meal selectedSearchMeal;
+    FirebaseUser user ;
+    MealDetailPresenter present;
+
 
     public Meal_Details() {
         // Required empty public constructor
@@ -43,7 +57,36 @@ public class Meal_Details extends Fragment implements MealDetailsViewInterface {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new MealDetailsPresenter(this, Repo.getInstance());
-
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+//        binding.btnAddMealDetailToFav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            Boolean clicked = false ;
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(user!= null){
+//                    if (!clicked){
+//                        // holder.addToFavourite.setChecked(false);
+//                        clicked = true;
+//                        addToFavourite.setBackgroundResource(R.drawable.baseline_favorite_24);
+//                        Toast.makeText(getContext(), "meal added to your favourite list", Toast.LENGTH_SHORT).show();
+//                        selectedSearchMeal.setDay("0");
+//                        //  listner.onAddToFavorite(response);
+//                        present.addToFavorite(selectedSearchMeal);
+////                        FirebaseDataBase.addFavouriteToFirebase(getContext(),selectedSearchMeal);
+//
+//                    }
+//                } else {
+//                    Toast.makeText(getContext(), "You need to login to be able to save meals to your favourit list", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        });
+//        binding.btnAddMealDetailToFav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -106,6 +149,7 @@ public class Meal_Details extends Fragment implements MealDetailsViewInterface {
             }
         });
     }
+
     public ArrayList<MealIngredients> prepareIngredient (MealDetailResponse.MealsDTO meal){
         ArrayList<MealIngredients> ingredientsList = new ArrayList<>();
         if (meal.getStrIngredient1()!=null&&  !meal.getStrIngredient1().isEmpty())

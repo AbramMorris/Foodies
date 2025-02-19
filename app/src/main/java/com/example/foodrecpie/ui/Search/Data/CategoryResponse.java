@@ -7,17 +7,17 @@ import java.util.List;
 
 public class CategoryResponse {
     @SerializedName("meals")
-    private List<CategoryDTO> meals;
+    private List<MealsDTO> meals;
 
-    public List<CategoryDTO> getMeals() {
+    public List<MealsDTO> getMeals() {
         return meals;
     }
 
-    public void setMeals(List<CategoryDTO> meals) {
+    public void setMeals(List<MealsDTO> meals) {
         this.meals = meals;
     }
 
-    public static class CategoryDTO {
+    public static class MealsDTO {
         @SerializedName("strCategory")
         private String strCategory;
 

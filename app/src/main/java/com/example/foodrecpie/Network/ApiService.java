@@ -6,6 +6,9 @@ import com.example.foodrecpie.Model.RandemMealsPojo;
 import com.example.foodrecpie.ui.Search.Data.AreaResponse;
 import com.example.foodrecpie.ui.Search.Data.CategoryResponse;
 import com.example.foodrecpie.ui.Search.Data.IngredientResponse;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.AreaSearchModel;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.CategoryMealResponse;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.IngredientMealResponse;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
@@ -17,20 +20,23 @@ public interface ApiService {
     Single<RandemMealsPojo> getRandemMeal();
 
     @GET("filter.php")
-    Observable<AreaResponse> getAreas(@Query("a") String areaName);
+    Observable<AreaSearchModel> getAreas(@Query("a") String areaName);
 
     @GET("filter.php")
-    Single<CategoryResponse> getCategories(@Query("c") String categoryName);
+    Single<AreaSearchModel> getMealsAreas(@Query("a") String areaName);
 
     @GET("filter.php")
-    Single<IngredientResponse> getIngredients(@Query("i") String ingredientName);
+    Single<CategoryMealResponse> getCategories(@Query("c") String categoryName);
+
+    @GET("filter.php")
+    Single<IngredientMealResponse> getIngredients(@Query("i") String ingredientName);
 
     @GET("search.php")
     Single<RandemMealsPojo> getMealsBySearch(@Query("s") String searchLitter);
     @GET("lookup.php")
     Single<MealDetailResponse> getMealDetails(@Query("i") String id);
     @GET("list.php?i=list")
-    Single<RandemMealsPojo> getIngredientsList();
+    Observable<IngredientResponse> getIngredientsList();
     @GET("list.php?a=list")
     Observable<SelectedResponse> getAreasList();
 

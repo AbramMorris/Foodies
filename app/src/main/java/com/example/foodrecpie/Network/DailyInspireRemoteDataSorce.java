@@ -5,13 +5,20 @@ import android.util.Log;
 
 import com.example.foodrecpie.CountryArea.Model.SelectedResponse;
 import com.example.foodrecpie.CountryArea.NetworkCallBackCountry;
-import com.example.foodrecpie.Model.RandemMealsPojo;
+import com.example.foodrecpie.Model.NetworkCallArea;
 import com.example.foodrecpie.ui.Search.Data.CategoryResponse;
+import com.example.foodrecpie.ui.Search.Data.IngredientResponse;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.AreaSearchModel;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.CategoryMealResponse;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.IngredientMealResponse;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.NetworkCallCategoriesMeals;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.NetworkCallIngredientsMeals;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -24,15 +31,19 @@ public class DailyInspireRemoteDataSorce implements RemoteSource {
     public static final String TAG = "Retrofit";
     private ApiService apiService;
     private static DailyInspireRemoteDataSorce Instance;
+
     public static DailyInspireRemoteDataSorce getInstance() {
         if (Instance == null) {
             Instance = new DailyInspireRemoteDataSorce();
         }
         return Instance;
     }
+
     private static Retrofit retrofit;
 
-    private DailyInspireRemoteDataSorce(){}
+    private DailyInspireRemoteDataSorce() {
+    }
+
     public static Retrofit getData() {
         if (retrofit == null) {
 
@@ -44,8 +55,9 @@ public class DailyInspireRemoteDataSorce implements RemoteSource {
         }
         return retrofit;
     }
+
     @SuppressLint("CheckResult")
-    public void makeNetworkCall(NetworkCallBack networkCallBack ) {
+    public void makeNetworkCall(NetworkCallBack networkCallBack) {
         apiService = getData().create(ApiService.class);
         apiService.getRandemMeal().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,6 +75,7 @@ public class DailyInspireRemoteDataSorce implements RemoteSource {
                 );
 
     }
+
     @SuppressLint("CheckResult")
     public Observable<SelectedResponse> getListCountry(NetworkCallBackCountry networkCalBack) {
         apiService = getData().create(ApiService.class);
@@ -97,6 +110,7 @@ public class DailyInspireRemoteDataSorce implements RemoteSource {
 
         return apiService.getAreasList();
     }
+
     public Observable<CategoryResponse> getCategoriesList(NetworkCallCategories networkCallCategories) {
         apiService = getData().create(ApiService.class);
         apiService.getCategoriesList()
@@ -130,8 +144,155 @@ public class DailyInspireRemoteDataSorce implements RemoteSource {
         return apiService.getCategoriesList();
     }
 
+    public Observable<IngredientResponse> getIngredients(NetworkCallCategories networkCallCategories) {
+        apiService = getData().create(ApiService.class);
+        apiService.getIngredientsList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<IngredientResponse>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull IngredientResponse ingredientResponse) {
+                        networkCallCategories.onSuccessIngredients(ingredientResponse.getMeals());
+                        for (int i = 0; i < ingredientResponse.getMeals().size(); i++) {
+                            Log.d("ingredientyyyy", "onSuccess: " + ingredientResponse.getMeals().get(i).getStrIngredient());
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+        return apiService.getIngredientsList();
+    }
+
+
     @Override
-    public void resultMealsSelectedCategory(NetworkCallBack networkCalBack, String category) {
+    public Observable<AreaSearchModel> resultMealsSelectedArea(NetworkCallArea network, String nationality) {
+        apiService = getData().create(ApiService.class);
+        apiService.getAreas(nationality)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AreaSearchModel>() {
+                               @Override
+                               public void onSubscribe(@NonNull Disposable d) {
+
+                               }
+
+                               @Override
+                               public void onNext(@NonNull AreaSearchModel areaResponse) {
+                                   network.onSuccessArea(areaResponse.getMeals());
+
+                               }
+
+                               @Override
+                               public void onError(@NonNull Throwable e) {
+
+                               }
+
+                               @Override
+                               public void onComplete() {
+
+                               }
+                           }
+
+                );
+        return apiService.getAreas(nationality);
+    }
+
+    public Single<AreaSearchModel> resultMealArea(NetworkCallArea networkCalBack, String area)
+    {
+        apiService = getData().create(ApiService.class);
+        apiService.getMealsAreas(area)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<AreaSearchModel>() {
+                               @Override
+                               public void onSubscribe(@NonNull Disposable d) {
+
+                               }
+
+                               @Override
+                               public void onSuccess(@NonNull AreaSearchModel areaSearchModel) {
+                               networkCalBack.onSuccessArea(areaSearchModel.getMeals());
+                               }
+
+                               @Override
+                               public void onError(@NonNull Throwable e) {
+
+                               }
+                           }
+                );
+        return apiService.getMealsAreas(area);
+    }
+
+    public Single<CategoryMealResponse> getCategoryMeals(NetworkCallCategoriesMeals networkCalBack, String category)
+    {
+        apiService = getData().create(ApiService.class);
+        apiService.getCategories(category)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CategoryMealResponse>() {
+                               @Override
+                               public void onSubscribe(@NonNull Disposable d) {
+
+                               }
+
+                               @Override
+                               public void onSuccess(@NonNull CategoryMealResponse categoryResponse) {
+                                   networkCalBack.onSuccessCategories(categoryResponse.getMeals());
+                               }
+
+
+                               @Override
+                               public void onError(@NonNull Throwable e) {
+
+                               }
+                           }
+                );
+
+
+return apiService.getCategories(category);
+
+    }
+
+    public Single<IngredientMealResponse> getIngMealss(NetworkCallIngredientsMeals networkCalBack, String ingredient) {
+        apiService = getData().create(ApiService.class);
+        apiService.getIngredients(ingredient)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<IngredientMealResponse>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(@NonNull IngredientMealResponse ingredientMealResponse) {
+                        networkCalBack.onSuccessIngredientsMeal(ingredientMealResponse.getMeals());
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+                });
+        return apiService.getIngredients(ingredient);
+
+    }
+    @Override
+    public void resultMealsSelectedCategory(NetworkCallCategoriesMeals networkCalBack, String category) {
 
     }
 

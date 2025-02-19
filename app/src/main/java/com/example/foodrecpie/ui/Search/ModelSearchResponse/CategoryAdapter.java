@@ -19,15 +19,17 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private List<CategoryResponse.CategoryDTO> categories;
+    private List<CategoryResponse.MealsDTO> categories;
     private Context context;
     private String url_part1="https://www.themealdb.com/images/category/";
 
     private  String url_part2=".png";
+    private CategoryMealsAdapter.OnCatClickListener listener;
 
-    public CategoryAdapter(Context context, List<CategoryResponse.CategoryDTO> categories) {
+    public CategoryAdapter(Context context, List<CategoryResponse.MealsDTO> categories, CategoryMealsAdapter.OnCatClickListener listener) {
         this.context = context;
         this.categories = categories != null ? categories : new ArrayList<>();
+        this.listener = listener;
     }
 
     @NonNull
@@ -39,8 +41,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CategoryResponse.CategoryDTO category = categories.get(position);
+        CategoryResponse.MealsDTO category = categories.get(position);
         holder.categoryName.setText(category.getStrCategory());
+        holder.layout.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onCatClick(category.getStrCategory());
+            }
+        });
+
 
         // Set image if available, or use default
         Glide.with(context).load(url_part1+category.getStrCategory()+url_part2).into(holder.categoryImage);
@@ -51,7 +59,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return categories.size();
     }
 
-    public void updateData(List<CategoryResponse.CategoryDTO> newCategories) {
+    public void updateData(List<CategoryResponse.MealsDTO> newCategories) {
         categories.clear();
         categories.addAll(newCategories);
         notifyDataSetChanged();

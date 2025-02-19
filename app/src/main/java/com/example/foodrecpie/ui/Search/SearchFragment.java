@@ -1,7 +1,5 @@
 package com.example.foodrecpie.ui.Search;
 
-import static androidx.core.widget.TextViewKt.addTextChangedListener;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,10 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.SearchView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,28 +19,30 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.foodrecpie.CountryArea.Adapter.CountryAdapter;
 import com.example.foodrecpie.CountryArea.AreaOnClickListner;
 import com.example.foodrecpie.CountryArea.Model.Meal;
-import com.example.foodrecpie.CountryArea.Model.SelectedResponse;
+import com.example.foodrecpie.Presenter.SelectedAreaViewInterface;
 import com.example.foodrecpie.R;
-import com.example.foodrecpie.Repo;
-import com.example.foodrecpie.ui.Search.Data.AreaResponse;
+import com.example.foodrecpie.Network.Repo;
 import com.example.foodrecpie.ui.Search.Data.CategoryResponse;
 import com.example.foodrecpie.ui.Search.Data.IngredientResponse;
+import com.example.foodrecpie.ui.Search.Data.SelectedAreaOnClickListner;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.AreaSearchModel;
 import com.example.foodrecpie.ui.Search.ModelSearchResponse.CategoryAdapter;
-import com.example.foodrecpie.ui.Search.SearchAdapter;
-import com.google.android.material.chip.Chip;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.CategoryMealResponse;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.CategoryMealsAdapter;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.IngredientAdapter;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.IngredientMealResponse;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.IngredientMealsAdapter;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.SelectedCountryAdapter;
 import com.google.android.material.chip.ChipGroup;
-
-import org.checkerframework.checker.units.qual.Area;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class SearchFragment extends Fragment implements SearchViewInterface , AreaOnClickListner {
+public class SearchFragment extends Fragment implements SearchViewInterface , SelectedAreaViewInterface,AreaOnClickListner, SelectedAreaOnClickListner, SelectedCountryAdapter.OnMealClickListener, CategoryMealsAdapter.OnCatClickListener, IngredientMealsAdapter.OnIngredientClickListener {
     private RecyclerView recyclerView;
     private SearchPresenter presenter;
     private SearchAdapter adapter;
@@ -52,6 +51,13 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Ar
     private EditText searchView;
     private List<Meal> myApiMeals;
     private CategoryAdapter categoryAdapter;
+    private IngredientAdapter ingredientAdapter;
+    private SelectedCountryAdapter ad;
+    private CategoryMealsAdapter categoryMealsAdapter;
+    CardView cardView;
+    SelectedAreaOnClickListner listner;
+    private IngredientMealsAdapter ingredientMealsAdapter;
+
     List<Meal> MyAreas = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
@@ -60,23 +66,19 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Ar
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         recyclerView = view.findViewById(R.id.recycler_search);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        cardView = view.findViewById(R.id.area_view_Card);
         chipGroup = view.findViewById(R.id.chip_group_filter);
         searchView = view.findViewById(R.id.pt_searchForAllMeals);
-
         presenter = new SearchPresenter(this,Repo.getInstance());
+        countryAdapter = new CountryAdapter(getContext(),MyAreas,this);
 
-        // Default: Load categories
-//        presenter.getCategories();
-
-        // Handle Chip Selection
         chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.chip2) {
                 presenter.fetchAreas();
             } else if (checkedId == R.id.chip3) {
                 presenter.fetchCategories();
             } else if (checkedId == R.id.chip4) {
-//                presenter.fetchIngredients();
+                presenter.fetchIngredients();
             }
         });
 
@@ -111,16 +113,11 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Ar
 
 
     @Override
-    public void showCategories(List<CategoryResponse.CategoryDTO> categories) {
-        categoryAdapter = new CategoryAdapter(getContext(), categories);
+    public void showCategories(List<CategoryResponse.MealsDTO> categories) {
+        categoryAdapter = new CategoryAdapter(getContext(), categories,this);
         recyclerView.setAdapter(categoryAdapter);
     }
 
-    @Override
-    public void showIngredients(List<IngredientResponse.Ingredient> ingredients) {
-//        adapter = new SearchAdapter(ingredients);
-        recyclerView.setAdapter(adapter);
-    }
 
     @Override
     public void showAreas(List<Meal> areas) {
@@ -131,20 +128,53 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Ar
     }
 
     @Override
+    public void showMeals(List<AreaSearchModel.MealsDTO> meals) {
+        ad = new SelectedCountryAdapter(getContext(),meals,this);
+        recyclerView.setAdapter(ad);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        presenter.getAreaMeals(meals);
+    }
+
+
+    @Override
+    public void showIngredients(List<IngredientResponse.MealsDTO> ingredients) {
+        ingredientAdapter = new IngredientAdapter(getContext(), ingredients,this);
+        recyclerView.setAdapter(ingredientAdapter);
+    }
+    @Override
+    public void showData(ArrayList<Meal> meals) {
+        this.myApiMeals = meals;
+//        ad.setList(meals);
+        ad.notifyDataSetChanged();
+    }
+
+    @Override
     public void showError(String message) {
         Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onClick(String nationName) {
+    public void ShowCategoryMeals(List<CategoryMealResponse.MealsDTO> meals) {
+        categoryMealsAdapter = new CategoryMealsAdapter(getContext(), meals,this);
+        recyclerView.setAdapter(categoryMealsAdapter);
 
     }
+
+    @Override
+    public void showIngMeals(List<IngredientMealResponse.MealsDTO> meals) {
+        ingredientMealsAdapter = new IngredientMealsAdapter(getContext(), meals,this);
+        recyclerView.setAdapter(ingredientMealsAdapter);
+
+    }
+
+
+    @SuppressLint("CheckResult")
     private void FiltterArea(String s) {
 //        List<Meal> myFilterAreas = myApiMeals.stream()
 //                .filter(meal -> meal.getStrArea().toLowerCase().contains(s.toLowerCase()))
 //                .collect(Collectors.toList());
         Observable.fromIterable(myApiMeals)
-                .filter(ingredient -> ingredient.getStrIngredient().toLowerCase().contains(s.toLowerCase()))
+                .filter(meal -> meal.getStrArea().toLowerCase().contains(s.toLowerCase()))
                 .toList()
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list ->{
@@ -152,5 +182,43 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Ar
                     countryAdapter.notifyDataSetChanged();
                 } ,throwable -> Log.e("Abram", "FiltterArea: ",throwable));
     }
+
+//    @Override
+//    public void onAddToFavorite(Meal meal) {
+//    presenter.addToFavorite(meal);
+//    }
+
+    @Override
+    public void ShowMealDetails(Meal meal) {
+//        ad = new SelectedCountryAdapter(getContext(),meal,this);
+//        recyclerView.setAdapter(ad);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        presenter.fetchSelectedAreas(meal.getStrArea());
+    }
+    @Override
+    public void onMealClick(String meal) {
+        presenter.fetchSelectedAreas(meal);
+    }
+
+    @Override
+    public void onClick(String nationName) {
+        Log.d("Abram", "onClick: "+nationName);
+//    presenter.fetchSelectedAreas(nationName);
+    }
+
+    @Override
+    public void onCatClick(String mealId) {
+        presenter.getCatMeals(mealId);
+    }
+
+    @Override
+    public void onIngredientMealClick(String mealId) {
+     presenter.getIngMeals(mealId);
+    }
+
+//    @Override
+//    public void onAddToFavorite(IngredientMealResponse.MealsDTO meal) {
+//        presenter.addToFavorite(meal);
+//    }
 }
 

@@ -1,8 +1,15 @@
 package com.example.foodrecpie.Network;
 
-public interface RemoteSource {
+import com.example.foodrecpie.Model.NetworkCallArea;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.AreaSearchModel;
+import com.example.foodrecpie.ui.Search.ModelSearchResponse.NetworkCallCategoriesMeals;
 
-    public  void resultMealsSelectedCategory (NetworkCallBack networkDelegate , String category);
+import io.reactivex.rxjava3.core.Observable;
+
+public interface RemoteSource {
+    public Observable<AreaSearchModel> resultMealsSelectedArea (NetworkCallArea network , String nationality);
+
+    public  void resultMealsSelectedCategory (NetworkCallCategoriesMeals networkDelegate , String category);
 
     public  void resultMealsSelectedIngredient (NetworkCallBack networkDelegate , String ingredient);
 
