@@ -7,14 +7,12 @@
     android:layout_margin="10dp"
     app:cardCornerRadius="30dp"
     app:cardBackgroundColor="@color/card_backgroud"
-
     app:cardElevation="30dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cons_lay_Selected_area"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <ToggleButton
             android:id="@+id/btn_addToFav"
@@ -23,7 +21,7 @@
 
             android:layout_marginTop="12dp"
             android:layout_marginEnd="24dp"
-            android:background="@drawable/baseline_favorite_border_24"
+            android:background="@drawable/ic_dashboard_black_24dp"
             android:text="ToggleButton"
             android:textOff=""
             android:textOn=""
@@ -39,18 +37,18 @@
             android:drawableStart="@drawable/baseline_fastfood_24"
             android:drawablePadding="12dp"
             android:paddingStart="12dp"
+            android:paddingTop="5dp"
             android:text="TextView"
+            android:textAlignment="gravity"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:paddingTop="5dp"
-            android:textAlignment="gravity"
             app:layout_constraintBottom_toTopOf="@+id/days_drop_dawn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.444"
+            app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toEndOf="@+id/cardView3"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.767" />
+            app:layout_constraintVertical_bias="0.485" />
 
         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
             android:id="@+id/days_drop_dawn"
@@ -64,6 +62,7 @@
             android:completionThreshold="0"
             android:drawableStart="@drawable/baseline_edit_calendar_24"
             android:editable="false"
+            android:visibility="gone"
             android:hint="@string/add_to_plan"
             android:paddingStart="12dp"
             android:paddingTop="3dp"

@@ -117,6 +117,10 @@ repository.getResulrCategoryMeals(this ,categoryName)
 //                .collect(Collectors.toList());
 //
 //    }
+    public void filter(String query) {
+
+
+    }
 
     @SuppressLint("CheckResult")
     public void fetchIngredients() {
