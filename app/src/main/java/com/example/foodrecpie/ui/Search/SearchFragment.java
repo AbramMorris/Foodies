@@ -59,6 +59,9 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
     CardView cardView;
     SelectedAreaOnClickListner listner;
     private IngredientMealsAdapter ingredientMealsAdapter;
+    List<CategoryResponse.MealsDTO> cachedMeals;
+    String selectedChip;
+    List<IngredientResponse.MealsDTO> cachedIngredients;
 
 
     List<Meal> MyAreas = new ArrayList<>();
@@ -81,12 +84,17 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
         chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.chip2) {
                 presenter.fetchAreas();
+                selectedChip = "area";
             } else if (checkedId == R.id.chip3) {
                 presenter.fetchCategories();
+                selectedChip = "category";
             } else if (checkedId == R.id.chip4) {
                 presenter.fetchIngredients();
+                selectedChip = "ingredient";
             }
         });
+
+
 
         // Handle Search Query
         searchView.addTextChangedListener(new TextWatcher() {
@@ -98,7 +106,14 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String filter = s.toString();
-                FiltterArea( filter);
+                if (selectedChip.equals("area")) {
+                    filtterArea(filter);
+                } else if (selectedChip.equals("category")) {
+                    filtterCategory(filter);
+                }
+                else if (selectedChip.equals("ingredient")) {
+                    filtterIngredient(filter);
+                }
             }
 
             @Override
@@ -120,6 +135,7 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
 
     @Override
     public void showCategories(List<CategoryResponse.MealsDTO> categories) {
+        cachedMeals = new ArrayList<>(categories);
         categoryAdapter = new CategoryAdapter(getContext(), categories,this);
         recyclerView.setAdapter(categoryAdapter);
     }
@@ -127,7 +143,7 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
 
     @Override
     public void showAreas(List<Meal> areas) {
-        myApiMeals = areas;
+        myApiMeals = new ArrayList<>(areas);
         adapter = new SearchAdapter(areas,getContext(),this);
         Log.d("Abram", "showAreas: "+areas.size());
         recyclerView.setAdapter(adapter);
@@ -144,19 +160,18 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
                 navigateToDetails(meal);
             }
         });
-//        presenter.getAreaMeals(meals);
     }
 
 
     @Override
     public void showIngredients(List<IngredientResponse.MealsDTO> ingredients) {
+        cachedIngredients=new ArrayList<>(ingredients);
         ingredientAdapter = new IngredientAdapter(getContext(), ingredients,this);
         recyclerView.setAdapter(ingredientAdapter);
     }
     @Override
     public void showData(ArrayList<Meal> meals) {
         this.myApiMeals = meals;
-//        ad.setList(meals);
         ad.notifyDataSetChanged();
     }
 
@@ -197,10 +212,11 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
 
 
     @SuppressLint("CheckResult")
-    private void FiltterArea(String s) {
+    private void filtterArea(String s) {
 //        List<Meal> myFilterAreas = myApiMeals.stream()
 //                .filter(meal -> meal.getStrArea().toLowerCase().contains(s.toLowerCase()))
 //                .collect(Collectors.toList());
+        Log.d("filteredArea", "FiltterArea: "+myApiMeals.size());
         Observable.fromIterable(myApiMeals)
                 .filter(meal -> meal.getStrArea().toLowerCase().contains(s.toLowerCase()))
                 .toList()
@@ -208,13 +224,43 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
                 .subscribe(list ->{
                     countryAdapter.updateData(list);
                     countryAdapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(countryAdapter);
+                } ,throwable -> Log.e("Abram", "FiltterArea: ",throwable));
+    }
+    @SuppressLint("CheckResult")
+    private void filtterCategory(String s) {
+//        List<Meal> myFilterAreas = myApiMeals.stream()
+//                .filter(meal -> meal.getStrArea().toLowerCase().contains(s.toLowerCase()))
+//                .collect(Collectors.toList());
+        Log.d("filteredArea", "FiltterArea: "+cachedMeals.size());
+        Observable.fromIterable(cachedMeals)
+                .filter(meal -> meal.getStrCategory().toLowerCase().contains(s.toLowerCase()))
+                .toList()
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(list ->{
+                    categoryAdapter.updateData(list);
+                    categoryAdapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(categoryAdapter);
+                } ,throwable -> Log.e("Abram", "FiltterArea: ",throwable));
+    }
+    @SuppressLint("CheckResult")
+    private void filtterIngredient(String s) {
+//        List<Meal> myFilterAreas = myApiMeals.stream()
+//                .filter(meal -> meal.getStrArea().toLowerCase().contains(s.toLowerCase()))
+//                .collect(Collectors.toList());
+        Log.d("filteredArea", "FiltterArea: "+cachedIngredients.size());
+        Observable.fromIterable(cachedIngredients)
+                .filter(meal -> meal.getStrIngredient().toLowerCase().contains(s.toLowerCase()))
+                .toList()
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(list ->{
+                    ingredientAdapter.updateData(list);
+                    ingredientAdapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(ingredientAdapter);
                 } ,throwable -> Log.e("Abram", "FiltterArea: ",throwable));
     }
 
-//    @Override
-//    public void onAddToFavorite(Meal meal) {
-//    presenter.addToFavorite(meal);
-//    }
+
 
     @Override
     public void ShowMealDetails(Meal meal) {
@@ -247,7 +293,6 @@ public class SearchFragment extends Fragment implements SearchViewInterface , Se
 
     public void addMealToFav(Meal meal)
     {
-//        presenter.addToFavorite(meal);
     }
 }
 

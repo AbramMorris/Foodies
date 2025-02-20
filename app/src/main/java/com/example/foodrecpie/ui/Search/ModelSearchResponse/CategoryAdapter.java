@@ -1,7 +1,9 @@
 package com.example.foodrecpie.ui.Search.ModelSearchResponse;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,9 +61,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return categories.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void updateData(List<CategoryResponse.MealsDTO> newCategories) {
         categories.clear();
-        categories.addAll(newCategories);
+        categories =newCategories;
+        Log.d("FilteredCat", "setAreas: "+categories.size());
         notifyDataSetChanged();
     }
 

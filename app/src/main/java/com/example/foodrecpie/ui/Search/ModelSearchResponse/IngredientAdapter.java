@@ -57,8 +57,11 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
     public void updateData(List<IngredientResponse.MealsDTO> newIngredients) {
         ingredients.clear();
-        ingredients.addAll(newIngredients);
-        notifyDataSetChanged();
+        if (newIngredients != null)
+        {ingredients.addAll(newIngredients);
+        notifyDataSetChanged();} else {
+            notifyDataSetChanged();
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

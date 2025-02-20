@@ -85,7 +85,8 @@ public class CountryAdapter extends RecyclerView.Adapter <CountryAdapter.MyViewH
     }
     public void updateData(List<Meal> newCountry) {
         country.clear();
-        country.addAll(newCountry);
+        country = newCountry;
+        Log.d("Abram", "setAreas: "+country.size());
         notifyDataSetChanged();
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
